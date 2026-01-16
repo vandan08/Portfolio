@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { ReactNode, useEffect } from "react";
 
@@ -18,7 +18,7 @@ export default function AnimatedSection({
     const controls = useAnimation();
     const [ref, inView] = useInView({
         threshold: 0.1,
-        triggerOnce: false, // Allow re-triggering for scroll up/down
+        triggerOnce: false,
     });
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export default function AnimatedSection({
         }
     }, [controls, inView]);
 
-    const variants = {
+    const variants: Variants = {
         hidden: { opacity: 0, y: 50 },
         visible: {
             opacity: 1,
@@ -37,7 +37,7 @@ export default function AnimatedSection({
             transition: {
                 duration: 0.6,
                 delay: delay,
-                ease: "easeOut",
+                ease: [0.25, 0.46, 0.45, 0.94],
             },
         },
     };
@@ -81,7 +81,7 @@ export function StaggerContainer({
         }
     }, [controls, inView]);
 
-    const containerVariants = {
+    const containerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
@@ -111,7 +111,7 @@ interface StaggerItemProps {
 }
 
 export function StaggerItem({ children, className = "" }: StaggerItemProps) {
-    const itemVariants = {
+    const itemVariants: Variants = {
         hidden: { opacity: 0, y: 30, scale: 0.9 },
         visible: {
             opacity: 1,
@@ -119,7 +119,7 @@ export function StaggerItem({ children, className = "" }: StaggerItemProps) {
             scale: 1,
             transition: {
                 duration: 0.4,
-                ease: "easeOut",
+                ease: [0.25, 0.46, 0.45, 0.94],
             },
         },
     };
@@ -166,7 +166,7 @@ export function FadeIn({
         }
     }, [controls, inView]);
 
-    const variants = {
+    const variants: Variants = {
         hidden: { opacity: 0, ...directions[direction] },
         visible: {
             opacity: 1,
@@ -175,7 +175,7 @@ export function FadeIn({
             transition: {
                 duration: 0.6,
                 delay: delay,
-                ease: "easeOut",
+                ease: [0.25, 0.46, 0.45, 0.94],
             },
         },
     };
