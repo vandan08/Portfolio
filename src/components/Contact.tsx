@@ -1,16 +1,16 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState, FormEvent } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, FormEvent, useRef, useEffect } from "react";
 import AnimatedSection from "./AnimatedSection";
-import { FaPaperPlane } from "react-icons/fa";
+import { FaPaperPlane, FaChevronDown, FaCheck } from "react-icons/fa6";
 
 const enquiryTypes = [
-    "General Inquiry",
-    "Job Opportunity",
-    "Project Collaboration",
-    "Freelance Work",
-    "Other",
+    { value: "general", label: "General Inquiry", emoji: "💬" },
+    { value: "job", label: "Job Opportunity", emoji: "💼" },
+    { value: "project", label: "Project Collaboration", emoji: "🤝" },
+    { value: "freelance", label: "Freelance Work", emoji: "💻" },
+    { value: "other", label: "Other", emoji: "✨" },
 ];
 
 export default function Contact() {
@@ -23,6 +23,20 @@ export default function Contact() {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [submitError, setSubmitError] = useState("");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
@@ -53,32 +67,58 @@ export default function Contact() {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+        setSubmitError("");
 
         if (!validateForm()) return;
 
         setIsSubmitting(true);
 
-        // Simulate form submission
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        try {
+            const selectedEnquiry = enquiryTypes.find(t => t.value === formData.enquiryType);
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ...formData,
+                    enquiryType: selectedEnquiry?.label || formData.enquiryType,
+                }),
+            });
 
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        setFormData({ name: "", email: "", enquiryType: "", message: "" });
+            if (!response.ok) {
+                throw new Error("Failed to send message");
+            }
 
-        // Reset success message after 5 seconds
-        setTimeout(() => setIsSubmitted(false), 5000);
+            setIsSubmitted(true);
+            setFormData({ name: "", email: "", enquiryType: "", message: "" });
+
+            // Reset success message after 5 seconds
+            setTimeout(() => setIsSubmitted(false), 5000);
+        } catch {
+            setSubmitError("Failed to send message. Please try again or email directly.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-        // Clear error when user starts typing
         if (errors[name]) {
             setErrors((prev) => ({ ...prev, [name]: "" }));
         }
     };
+
+    const handleEnquirySelect = (value: string) => {
+        setFormData((prev) => ({ ...prev, enquiryType: value }));
+        setIsDropdownOpen(false);
+        if (errors.enquiryType) {
+            setErrors((prev) => ({ ...prev, enquiryType: "" }));
+        }
+    };
+
+    const selectedEnquiry = enquiryTypes.find(t => t.value === formData.enquiryType);
 
     return (
         <section id="contact" className="py-24 relative overflow-hidden">
@@ -130,6 +170,16 @@ export default function Contact() {
                             </motion.div>
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-6">
+                                {submitError && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm"
+                                    >
+                                        {submitError}
+                                    </motion.div>
+                                )}
+
                                 {/* Name */}
                                 <div>
                                     <label
@@ -144,8 +194,8 @@ export default function Contact() {
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className={`w-full ${errors.name ? "border-red-500" : ""
-                                            }`}
+                                        className={`w-full px-4 py-3 bg-white/5 border ${errors.name ? "border-red-500" : "border-white/10"
+                                            } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#8b5cf6] transition-colors`}
                                         placeholder="Your name"
                                     />
                                     {errors.name && (
@@ -167,8 +217,8 @@ export default function Contact() {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className={`w-full ${errors.email ? "border-red-500" : ""
-                                            }`}
+                                        className={`w-full px-4 py-3 bg-white/5 border ${errors.email ? "border-red-500" : "border-white/10"
+                                            } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#8b5cf6] transition-colors`}
                                         placeholder="your.email@example.com"
                                     />
                                     {errors.email && (
@@ -176,33 +226,74 @@ export default function Contact() {
                                     )}
                                 </div>
 
-                                {/* Enquiry Type */}
-                                <div>
-                                    <label
-                                        htmlFor="enquiryType"
-                                        className="block text-sm font-medium text-gray-300 mb-2"
-                                    >
+                                {/* Modern Custom Dropdown */}
+                                <div ref={dropdownRef}>
+                                    <label className="block text-sm font-medium text-gray-300 mb-2">
                                         Enquiry Type
                                     </label>
-                                    <select
-                                        id="enquiryType"
-                                        name="enquiryType"
-                                        value={formData.enquiryType}
-                                        onChange={handleChange}
-                                        className={`w-full ${errors.enquiryType ? "border-red-500" : ""
-                                            }`}
-                                    >
-                                        <option value="">Select an option</option>
-                                        {enquiryTypes.map((type) => (
-                                            <option key={type} value={type}>
-                                                {type}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    <div className="relative">
+                                        <motion.button
+                                            type="button"
+                                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                            className={`w-full px-4 py-3 bg-white/5 border ${errors.enquiryType ? "border-red-500" : "border-white/10"
+                                                } rounded-xl text-left flex items-center justify-between focus:outline-none focus:border-[#8b5cf6] transition-colors`}
+                                            whileTap={{ scale: 0.99 }}
+                                        >
+                                            <span className={selectedEnquiry ? "text-white" : "text-gray-500"}>
+                                                {selectedEnquiry ? (
+                                                    <span className="flex items-center gap-2">
+                                                        <span>{selectedEnquiry.emoji}</span>
+                                                        <span>{selectedEnquiry.label}</span>
+                                                    </span>
+                                                ) : (
+                                                    "Select an option"
+                                                )}
+                                            </span>
+                                            <motion.span
+                                                animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                                                transition={{ duration: 0.2 }}
+                                            >
+                                                <FaChevronDown className="text-gray-400" />
+                                            </motion.span>
+                                        </motion.button>
+
+                                        <AnimatePresence>
+                                            {isDropdownOpen && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                                                    transition={{ duration: 0.15 }}
+                                                    className="absolute z-50 w-full mt-2 py-2 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+                                                >
+                                                    {enquiryTypes.map((type, index) => (
+                                                        <motion.button
+                                                            key={type.value}
+                                                            type="button"
+                                                            onClick={() => handleEnquirySelect(type.value)}
+                                                            className={`w-full px-4 py-3 text-left flex items-center justify-between hover:bg-[#8b5cf6]/20 transition-colors ${formData.enquiryType === type.value
+                                                                    ? "bg-[#8b5cf6]/10 text-[#8b5cf6]"
+                                                                    : "text-gray-300"
+                                                                }`}
+                                                            initial={{ opacity: 0, x: -10 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: index * 0.05 }}
+                                                        >
+                                                            <span className="flex items-center gap-3">
+                                                                <span className="text-lg">{type.emoji}</span>
+                                                                <span>{type.label}</span>
+                                                            </span>
+                                                            {formData.enquiryType === type.value && (
+                                                                <FaCheck className="text-[#8b5cf6]" />
+                                                            )}
+                                                        </motion.button>
+                                                    ))}
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
                                     {errors.enquiryType && (
-                                        <p className="text-red-500 text-sm mt-1">
-                                            {errors.enquiryType}
-                                        </p>
+                                        <p className="text-red-500 text-sm mt-1">{errors.enquiryType}</p>
                                     )}
                                 </div>
 
@@ -220,8 +311,8 @@ export default function Contact() {
                                         value={formData.message}
                                         onChange={handleChange}
                                         rows={5}
-                                        className={`w-full resize-none ${errors.message ? "border-red-500" : ""
-                                            }`}
+                                        className={`w-full px-4 py-3 bg-white/5 border ${errors.message ? "border-red-500" : "border-white/10"
+                                            } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#8b5cf6] transition-colors resize-none`}
                                         placeholder="Tell me about your project or just say hi!"
                                     />
                                     {errors.message && (

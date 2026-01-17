@@ -14,14 +14,15 @@ import {
     FaJava,
     FaGem,
     FaTerminal,
-} from "react-icons/fa";
+    FaXTwitter,
+} from "react-icons/fa6";
 import { SiLeetcode, SiSpring, SiTypescript } from "react-icons/si";
 import { FadeIn } from "./AnimatedSection";
 
 const socialLinks = [
     {
         name: "LinkedIn",
-        href: "https://linkedin.com/in/vandansheth",
+        href: "https://www.linkedin.com/in/vandan-sheth08/",
         icon: FaLinkedin,
         color: "#0A66C2",
     },
@@ -32,14 +33,20 @@ const socialLinks = [
         color: "#ffffff",
     },
     {
+        name: "X",
+        href: "https://x.com/vandans08",
+        icon: FaXTwitter,
+        color: "#ffffff",
+    },
+    {
         name: "LeetCode",
-        href: "https://leetcode.com/vandansheth",
+        href: "https://leetcode.com/u/vandan08/",
         icon: SiLeetcode,
         color: "#FFA116",
     },
     {
         name: "Medium",
-        href: "https://medium.com/@vandansheth",
+        href: "https://medium.com/@vandanbsheth9",
         icon: FaMedium,
         color: "#ffffff",
     },
@@ -84,7 +91,7 @@ export default function Hero() {
     }, [mouseX, mouseY]);
 
     const copyCommand = () => {
-        navigator.clipboard.writeText("npx vandansheth");
+        navigator.clipboard.writeText("npx vandans");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
