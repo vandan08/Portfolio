@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "./AnimatedSection";
 import {
     FaJava,
@@ -33,6 +33,70 @@ import {
 } from "react-icons/si";
 import { VscCode } from "react-icons/vsc";
 import { TbBrain } from "react-icons/tb";
+
+function SkillChip({ skill }: { skill: { name: string; icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>; color: string } }) {
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    const mouseX = useTransform(x, [-100, 100], [-20, 20]);
+    const mouseY = useTransform(y, [-100, 100], [20, -20]);
+
+    const rotateX = useSpring(mouseY, { stiffness: 300, damping: 20 });
+    const rotateY = useSpring(mouseX, { stiffness: 300, damping: 20 });
+
+    return (
+        <motion.div
+            className="skill-chip group relative overflow-hidden perspective-1000"
+            style={{
+                perspective: 1000,
+                rotateX,
+                rotateY,
+            }}
+            onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                x.set(e.clientX - rect.left - rect.width / 2);
+                y.set(e.clientY - rect.top - rect.height / 2);
+            }}
+            onMouseLeave={() => {
+                x.set(0);
+                y.set(0);
+            }}
+            whileHover={{
+                scale: 1.1,
+                y: -12,
+                boxShadow: `0 25px 50px ${skill.color}40`,
+            }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        >
+            <motion.div
+                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity"
+                style={{ backgroundColor: skill.color }}
+            />
+            <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100"
+                animate={{
+                    rotate: [0, 360],
+                }}
+                transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "linear",
+                }}
+                style={{
+                    background: "conic-gradient(transparent, rgba(255,255,255,0.1), transparent)",
+                }}
+            />
+            <skill.icon
+                className="text-xl transition-all duration-300 group-hover:scale-125 relative z-10"
+                style={{ color: skill.color }}
+            />
+            <span className="text-sm text-gray-300 group-hover:text-white transition-colors relative z-10">
+                {skill.name}
+            </span>
+        </motion.div>
+    );
+}
 
 const skillCategories = [
     {
@@ -126,29 +190,7 @@ export default function Skills() {
                             >
                                 {category.skills.map((skill) => (
                                     <StaggerItem key={skill.name}>
-                                        <motion.div
-                                            className="skill-chip group relative overflow-hidden"
-                                            whileHover={{
-                                                scale: 1.1,
-                                                y: -8,
-                                                boxShadow: `0 20px 40px ${skill.color}40`,
-                                            }}
-                                            whileTap={{ scale: 0.95 }}
-                                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                                        >
-                                            {/* Glow effect on hover */}
-                                            <motion.div
-                                                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity"
-                                                style={{ backgroundColor: skill.color }}
-                                            />
-                                            <skill.icon
-                                                className="text-xl transition-all duration-300 group-hover:scale-125 relative z-10"
-                                                style={{ color: skill.color }}
-                                            />
-                                            <span className="text-sm text-gray-300 group-hover:text-white transition-colors relative z-10">
-                                                {skill.name}
-                                            </span>
-                                        </motion.div>
+                                        <SkillChip skill={skill} />
                                     </StaggerItem>
                                 ))}
                             </StaggerContainer>

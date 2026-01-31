@@ -61,22 +61,35 @@ export default function Header() {
                 }`}
         >
             <nav className="container-custom py-4 flex items-center justify-between">
-                {/* Logo - Profile Image */}
                 <motion.a
                     href="#home"
                     onClick={(e) => {
                         e.preventDefault();
                         scrollToSection("#home");
                     }}
-                    className="cursor-pointer relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#8b5cf6]"
-                    whileHover={{ scale: 1.1, borderColor: "#3b82f6" }}
+                    className="cursor-pointer relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#8b5cf6] group"
+                    whileHover={{ scale: 1.15 }}
                     whileTap={{ scale: 0.95 }}
                 >
+                    <motion.div
+                        className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6] to-[#3b82f6] opacity-0 group-hover:opacity-30 transition-opacity"
+                    />
+                    <motion.div
+                        className="absolute inset-[-2px] rounded-full bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#a855f7] opacity-0 group-hover:opacity-100 transition-opacity"
+                        animate={{
+                            rotate: [0, 360],
+                        }}
+                        transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "linear",
+                        }}
+                    />
                     <Image
                         src="/profile.jpg"
                         alt="Vandan Sheth"
                         fill
-                        className="object-cover"
+                        className="object-cover relative z-10"
                         sizes="40px"
                     />
                 </motion.a>
@@ -154,9 +167,23 @@ export default function Header() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-black/95 backdrop-blur-xl border-b border-white/10"
+                        className="md:hidden bg-black/95 backdrop-blur-xl border-b border-white/10 relative overflow-hidden"
                     >
-                        <div className="container-custom py-4 space-y-2">
+                        <motion.div
+                            className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/5 via-transparent to-[#3b82f6]/5 opacity-50"
+                            animate={{
+                                backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+                            }}
+                            transition={{
+                                duration: 10,
+                                repeat: Infinity,
+                                ease: "linear",
+                            }}
+                            style={{
+                                backgroundSize: "200% 200%",
+                            }}
+                        />
+                        <div className="container-custom py-4 space-y-2 relative z-10">
                             {navLinks.map((link, index) => (
                                 <motion.a
                                     key={link.name}
@@ -167,11 +194,13 @@ export default function Header() {
                                     }}
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    className={`block py-2 px-4 rounded-lg text-lg font-medium transition-all ${activeSection === link.href.slice(1)
-                                            ? "bg-[#8b5cf6] text-white"
+                                    transition={{ delay: index * 0.08 }}
+                                    className={`block py-3 px-4 rounded-xl text-lg font-medium transition-all relative overflow-hidden ${activeSection === link.href.slice(1)
+                                            ? "bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] text-white shadow-lg"
                                             : "text-gray-400 hover:text-white hover:bg-white/5"
                                         }`}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
                                 >
                                     {link.name}
                                 </motion.a>
@@ -182,11 +211,22 @@ export default function Header() {
                                 rel="noopener noreferrer"
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: navLinks.length * 0.1 }}
-                                className="flex items-center gap-2 py-3 px-4 bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] text-white rounded-lg text-center justify-center mt-4 font-medium"
+                                transition={{ delay: navLinks.length * 0.08 }}
+                                className="flex items-center gap-2 py-3 px-4 bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] text-white rounded-xl text-center justify-center mt-4 font-medium shadow-lg relative overflow-hidden group"
+                                whileHover={{ scale: 1.02, boxShadow: "0 10px 30px rgba(139, 92, 246, 0.4)" }}
+                                whileTap={{ scale: 0.98 }}
                             >
-                                <FaDownload />
-                                Download Resume
+                                <motion.div
+                                    className="absolute inset-0 bg-gradient-to-r from-[#3b82f6] to-[#a855f7] opacity-0 group-hover:opacity-100 transition-opacity"
+                                />
+                                <motion.span
+                                    animate={{ y: [0, -3, 0] }}
+                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                    className="relative z-10"
+                                >
+                                    <FaDownload />
+                                </motion.span>
+                                <span className="relative z-10">Download Resume</span>
                             </motion.a>
                         </div>
                     </motion.div>

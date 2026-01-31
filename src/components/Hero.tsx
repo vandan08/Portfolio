@@ -101,27 +101,46 @@ export default function Hero() {
             id="home"
             className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
         >
-            {/* Animated background gradient orbs that follow mouse */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <motion.div
-                    className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-[#8b5cf6]/20 rounded-full blur-[120px]"
+                    className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-[#8b5cf6]/30 to-[#3b82f6]/20 rounded-full blur-[120px]"
                     style={{
                         x: smoothX,
                         y: smoothY,
                     }}
+                    animate={{
+                        scale: [1, 1.1, 1],
+                        opacity: [0.3, 0.5, 0.3],
+                    }}
+                    transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                    }}
                 />
                 <motion.div
-                    className="absolute -bottom-1/4 -left-1/4 w-[500px] h-[500px] bg-[#3b82f6]/20 rounded-full blur-[120px]"
+                    className="absolute -bottom-1/4 -left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-[#3b82f6]/25 to-[#a855f7]/15 rounded-full blur-[120px]"
                     style={{
                         x: smoothX,
                         y: smoothY,
                     }}
+                    animate={{
+                        scale: [1, 1.15, 1],
+                        opacity: [0.25, 0.4, 0.25],
+                    }}
+                    transition={{
+                        duration: 10,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 1,
+                    }}
                 />
                 <motion.div
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#8b5cf6]/10 rounded-full blur-[150px]"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-[#8b5cf6]/15 via-[#3b82f6]/10 to-[#a855f7]/15 rounded-full blur-[150px]"
                     animate={{ rotate: 360 }}
                     transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
                 />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40 pointer-events-none" />
             </div>
 
             <div className="container-custom relative z-10">
@@ -187,27 +206,58 @@ export default function Hero() {
                                 <motion.a
                                     href="#contact"
                                     className="btn-primary flex items-center gap-2 relative overflow-hidden group"
-                                    whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(139, 92, 246, 0.5)" }}
+                                    whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(139, 92, 246, 0.6)" }}
                                     whileTap={{ scale: 0.95 }}
                                 >
                                     <span className="relative z-10">Get In Touch</span>
                                     <motion.div
                                         className="absolute inset-0 bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] opacity-0 group-hover:opacity-100 transition-opacity"
                                     />
+                                    <motion.div
+                                        className="absolute inset-0"
+                                        animate={{
+                                            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                                        }}
+                                        transition={{
+                                            duration: 2,
+                                            repeat: Infinity,
+                                            ease: "linear",
+                                        }}
+                                        style={{
+                                            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                                            backgroundSize: "200% 100%",
+                                        }}
+                                    />
                                 </motion.a>
                                 <motion.a
                                     href="https://drive.google.com/file/d/124To-yuuO7wtlCFQ_4GQw-W6hmWA9i_t/view?usp=drive_link"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="btn-secondary flex items-center gap-2 group"
+                                    className="btn-secondary flex items-center gap-2 group relative overflow-hidden"
                                     whileHover={{
                                         scale: 1.05,
                                         borderColor: "#8b5cf6",
-                                        boxShadow: "0 0 30px rgba(139, 92, 246, 0.3)"
+                                        boxShadow: "0 0 40px rgba(139, 92, 246, 0.4)"
                                     }}
                                     whileTap={{ scale: 0.95 }}
                                 >
-                                    <FaDownload className="group-hover:animate-bounce" />
+                                    <motion.div
+                                        className="absolute inset-0 bg-gradient-to-r from-transparent via-[#8b5cf6]/10 to-transparent opacity-0 group-hover:opacity-100"
+                                        animate={{
+                                            x: ["-100%", "100%"],
+                                        }}
+                                        transition={{
+                                            duration: 1,
+                                            repeat: Infinity,
+                                            ease: "linear",
+                                        }}
+                                    />
+                                    <motion.span
+                                        animate={{ y: [0, -3, 0] }}
+                                        transition={{ duration: 1.5, repeat: Infinity }}
+                                    >
+                                        <FaDownload className="group-hover:animate-bounce" />
+                                    </motion.span>
                                     Download Resume
                                 </motion.a>
                             </div>
@@ -222,11 +272,12 @@ export default function Hero() {
                                         href={link.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="p-3 glass rounded-full hover:border-[#8b5cf6] transition-all group"
+                                        className="p-3 glass rounded-full hover:border-[#8b5cf6] transition-all group relative overflow-hidden"
                                         whileHover={{
                                             scale: 1.2,
-                                            y: -8,
-                                            boxShadow: "0 10px 30px rgba(139, 92, 246, 0.4)"
+                                            y: -10,
+                                            boxShadow: `0 15px 40px ${link.color}50`,
+                                            borderColor: link.color,
                                         }}
                                         whileTap={{ scale: 0.9, rotate: 15 }}
                                         initial={{ opacity: 0, y: 20 }}
@@ -234,8 +285,12 @@ export default function Hero() {
                                         transition={{ delay: 0.8 + index * 0.1 }}
                                         title={link.name}
                                     >
+                                        <motion.div
+                                            className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-20 transition-opacity"
+                                            style={{ backgroundColor: link.color }}
+                                        />
                                         <link.icon
-                                            className="text-xl transition-all group-hover:scale-110"
+                                            className="text-xl transition-all group-hover:scale-125 relative z-10"
                                             style={{ color: link.color }}
                                         />
                                     </motion.a>
@@ -244,23 +299,34 @@ export default function Hero() {
                         </FadeIn>
                     </div>
 
-                    {/* Profile Image */}
                     <FadeIn delay={0.4} direction="left">
                         <div className="relative">
-                            {/* Glowing ring */}
                             <motion.div
-                                className="absolute inset-[-8px] rounded-full bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#8b5cf6] opacity-70 blur-sm"
+                                className="absolute inset-[-8px] rounded-full bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#a855f7] opacity-70 blur-sm"
                                 animate={{ rotate: 360 }}
-                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                             />
-                            <div className="absolute inset-[-4px] rounded-full bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#8b5cf6] opacity-50" />
-
-                            {/* Profile container */}
+                            <motion.div
+                                className="absolute inset-[-4px] rounded-full bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#a855f7] opacity-50"
+                                animate={{ rotate: -360 }}
+                                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                            />
                             <motion.div
                                 className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-black"
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.3 }}
+                                whileHover={{ scale: 1.08 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             >
+                                <motion.div
+                                    className="absolute inset-0 bg-gradient-to-tr from-[#8b5cf6]/20 to-[#3b82f6]/20"
+                                    animate={{
+                                        opacity: [0, 0.5, 0],
+                                    }}
+                                    transition={{
+                                        duration: 3,
+                                        repeat: Infinity,
+                                        ease: "easeInOut",
+                                    }}
+                                />
                                 <Image
                                     src="/profile.jpg"
                                     alt="Vandan Sheth - Software Engineer"
@@ -271,21 +337,28 @@ export default function Hero() {
                                 />
                             </motion.div>
 
-                            {/* Floating tech icons - Ruby, Shell, TS, Java, Spring */}
                             {floatingIcons.map((item, index) => (
                                 <motion.div
                                     key={index}
                                     className={`absolute ${item.position} glass rounded-full p-3`}
-                                    animate={{ y: [0, -15, 0] }}
+                                    animate={{ 
+                                        y: [0, -20, 0],
+                                        rotate: [0, 5, -5, 0],
+                                    }}
                                     transition={{
-                                        duration: 3,
+                                        duration: 4,
                                         repeat: Infinity,
                                         ease: "easeInOut",
-                                        delay: item.delay
+                                        delay: item.delay,
                                     }}
-                                    whileHover={{ scale: 1.3, rotate: 15 }}
+                                    whileHover={{ scale: 1.4, rotate: 20, boxShadow: `0 0 30px ${item.color}60` }}
                                 >
-                                    <item.icon className="text-2xl" style={{ color: item.color }} />
+                                    <motion.div
+                                        animate={{ rotate: [0, 360] }}
+                                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                    >
+                                        <item.icon className="text-2xl" style={{ color: item.color }} />
+                                    </motion.div>
                                 </motion.div>
                             ))}
                         </div>

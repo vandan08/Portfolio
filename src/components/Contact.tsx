@@ -143,33 +143,84 @@ export default function Contact() {
 
                 <AnimatedSection delay={0.2}>
                     <motion.div
-                        className="glass rounded-2xl p-6 md:p-10 max-w-2xl mx-auto"
+                        className="glass rounded-2xl p-6 md:p-10 max-w-2xl mx-auto relative overflow-hidden"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                     >
+                        <motion.div
+                            className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/5 via-transparent to-[#3b82f6]/5 opacity-0 hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                            animate={{
+                                backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+                            }}
+                            transition={{
+                                duration: 10,
+                                repeat: Infinity,
+                                ease: "linear",
+                            }}
+                            style={{
+                                backgroundSize: "200% 200%",
+                            }}
+                        />
+                        <motion.div
+                            className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#a855f7]"
+                            animate={{
+                                backgroundSize: ["200% 100%", "100% 100%"],
+                                backgroundPosition: ["0% 50%", "100% 50%"],
+                            }}
+                            transition={{
+                                duration: 3,
+                                repeat: Infinity,
+                                ease: "linear",
+                            }}
+                            style={{
+                                backgroundSize: "200% 100%",
+                            }}
+                        />
                         {isSubmitted ? (
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className="text-center py-12"
+                                className="text-center py-12 relative z-10"
                             >
                                 <motion.div
-                                    className="w-20 h-20 rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] flex items-center justify-center mx-auto mb-6"
-                                    animate={{ rotate: [0, 10, -10, 0] }}
+                                    className="w-24 h-24 rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] flex items-center justify-center mx-auto mb-6 relative"
+                                    animate={{ 
+                                        rotate: [0, 10, -10, 0],
+                                        boxShadow: [
+                                            "0 0 30px rgba(139, 92, 246, 0.4)",
+                                            "0 0 50px rgba(139, 92, 246, 0.6)",
+                                            "0 0 30px rgba(139, 92, 246, 0.4)",
+                                        ],
+                                    }}
                                     transition={{ duration: 0.5 }}
                                 >
-                                    <FaPaperPlane className="text-3xl text-white" />
+                                    <motion.div
+                                        className="absolute inset-[-4px] rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] opacity-50"
+                                        animate={{ scale: [1, 1.1, 1] }}
+                                        transition={{ duration: 2, repeat: Infinity }}
+                                    />
+                                    <FaPaperPlane className="text-4xl text-white relative z-10" />
                                 </motion.div>
-                                <h3 className="text-2xl font-bold text-white mb-2">
+                                <motion.h3 
+                                    className="text-3xl font-bold text-white mb-3"
+                                    initial={{ y: 20, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                >
                                     Message Sent!
-                                </h3>
-                                <p className="text-gray-400">
+                                </motion.h3>
+                                <motion.p 
+                                    className="text-gray-400"
+                                    initial={{ y: 20, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.3 }}
+                                >
                                     Thank you for reaching out. I&apos;ll get back to you soon!
-                                </p>
+                                </motion.p>
                             </motion.div>
                         ) : (
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                                 {submitError && (
                                     <motion.div
                                         initial={{ opacity: 0, y: -10 }}
@@ -180,7 +231,6 @@ export default function Contact() {
                                     </motion.div>
                                 )}
 
-                                {/* Name */}
                                 <div>
                                     <label
                                         htmlFor="name"
@@ -188,22 +238,32 @@ export default function Contact() {
                                     >
                                         Name
                                     </label>
-                                    <input
+                                    <motion.input
                                         type="text"
                                         id="name"
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
                                         className={`w-full px-4 py-3 bg-white/5 border ${errors.name ? "border-red-500" : "border-white/10"
-                                            } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#8b5cf6] transition-colors`}
+                                            } rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all duration-300`}
                                         placeholder="Your name"
+                                        whileFocus={{
+                                            scale: 1.01,
+                                            borderColor: "#8b5cf6",
+                                            boxShadow: "0 0 20px rgba(139, 92, 246, 0.2)",
+                                        }}
                                     />
                                     {errors.name && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                                        <motion.p 
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            className="text-red-500 text-sm mt-1"
+                                        >
+                                            {errors.name}
+                                        </motion.p>
                                     )}
                                 </div>
 
-                                {/* Email */}
                                 <div>
                                     <label
                                         htmlFor="email"
@@ -211,18 +271,29 @@ export default function Contact() {
                                     >
                                         Email
                                     </label>
-                                    <input
+                                    <motion.input
                                         type="email"
                                         id="email"
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
                                         className={`w-full px-4 py-3 bg-white/5 border ${errors.email ? "border-red-500" : "border-white/10"
-                                            } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#8b5cf6] transition-colors`}
+                                            } rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all duration-300`}
                                         placeholder="your.email@example.com"
+                                        whileFocus={{
+                                            scale: 1.01,
+                                            borderColor: "#8b5cf6",
+                                            boxShadow: "0 0 20px rgba(139, 92, 246, 0.2)",
+                                        }}
                                     />
                                     {errors.email && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                                        <motion.p 
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            className="text-red-500 text-sm mt-1"
+                                        >
+                                            {errors.email}
+                                        </motion.p>
                                     )}
                                 </div>
 
@@ -305,29 +376,57 @@ export default function Contact() {
                                     >
                                         Message
                                     </label>
-                                    <textarea
+                                    <motion.textarea
                                         id="message"
                                         name="message"
                                         value={formData.message}
                                         onChange={handleChange}
                                         rows={5}
                                         className={`w-full px-4 py-3 bg-white/5 border ${errors.message ? "border-red-500" : "border-white/10"
-                                            } rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#8b5cf6] transition-colors resize-none`}
+                                            } rounded-xl text-white placeholder-gray-500 focus:outline-none transition-all duration-300 resize-none`}
                                         placeholder="Tell me about your project or just say hi!"
+                                        whileFocus={{
+                                            scale: 1.01,
+                                            borderColor: "#8b5cf6",
+                                            boxShadow: "0 0 20px rgba(139, 92, 246, 0.2)",
+                                        }}
                                     />
                                     {errors.message && (
-                                        <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+                                        <motion.p 
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            className="text-red-500 text-sm mt-1"
+                                        >
+                                            {errors.message}
+                                        </motion.p>
                                     )}
                                 </div>
 
-                                {/* Submit Button */}
                                 <motion.button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
                                     whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                                     whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                                 >
+                                    <motion.div
+                                        className="absolute inset-0 bg-gradient-to-r from-[#3b82f6] to-[#a855f7] opacity-0 group-hover:opacity-100 transition-opacity"
+                                    />
+                                    <motion.div
+                                        className="absolute inset-0"
+                                        animate={{
+                                            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                                        }}
+                                        transition={{
+                                            duration: 2,
+                                            repeat: Infinity,
+                                            ease: "linear",
+                                        }}
+                                        style={{
+                                            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+                                            backgroundSize: "200% 100%",
+                                        }}
+                                    />
                                     {isSubmitting ? (
                                         <>
                                             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -335,8 +434,13 @@ export default function Contact() {
                                         </>
                                     ) : (
                                         <>
-                                            <FaPaperPlane />
-                                            Send Message
+                                            <motion.span
+                                                animate={{ x: [0, 5, 0] }}
+                                                transition={{ duration: 1, repeat: Infinity }}
+                                            >
+                                                <FaPaperPlane />
+                                            </motion.span>
+                                            <span className="relative z-10">Send Message</span>
                                         </>
                                     )}
                                 </motion.button>
