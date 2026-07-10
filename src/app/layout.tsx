@@ -1,27 +1,46 @@
 import type { Metadata } from "next";
-import { Inter, Fira_Code } from "next/font/google";
+import { Fraunces, Newsreader, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
-const firaCode = Fira_Code({
-  variable: "--font-fira-code",
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Vandan Sheth - Software Engineer",
-  description: "Software Engineer at OneIT. Building scalable enterprise applications with Java, Spring Boot, AI/ML integration, and modern web technologies.",
-  keywords: ["Software Engineer", "Java", "Spring Boot", "React", "Angular", "Full Stack Developer", "AI Engineer"],
+  title: "Vandan Sheth — Software Engineer",
+  description:
+    "Software Engineer at OneIT. I build dependable enterprise software with Java, Angular, and modern AI tooling — and I care about how it's made.",
+  keywords: [
+    "Software Engineer",
+    "Java",
+    "Spring Boot",
+    "Angular",
+    "React",
+    "Full Stack Developer",
+    "AI Engineer",
+  ],
   authors: [{ name: "Vandan Sheth" }],
   openGraph: {
-    title: "Vandan Sheth - Software Engineer",
-    description: "I build things for the Web. Full-stack developer specializing in enterprise applications and AI integration.",
+    title: "Vandan Sheth — Software Engineer",
+    description:
+      "Software Engineer at OneIT. Dependable enterprise software with Java, Angular, and modern AI tooling.",
     type: "website",
   },
 };
@@ -32,17 +51,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${firaCode.variable} antialiased bg-black text-white`}
-        suppressHydrationWarning
+        className={`${fraunces.variable} ${newsreader.variable} ${plexMono.variable} antialiased`}
       >
-        {/* Animated Background Orbs */}
-        <div className="bg-orbs">
-          <div className="orb orb-1" />
-          <div className="orb orb-2" />
-          <div className="orb orb-3" />
-        </div>
         {children}
       </body>
     </html>

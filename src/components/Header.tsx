@@ -1,237 +1,142 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { HiMenu, HiX } from "react-icons/hi";
-import { FaDownload } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+const RESUME_URL = "/resume.pdf";
 
 const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "Skills", href: "#skills" },
     { name: "Experience", href: "#experience" },
     { name: "Projects", href: "#projects" },
+    { name: "Capabilities", href: "#skills" },
     { name: "Education", href: "#education" },
     { name: "Contact", href: "#contact" },
 ];
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
-    const [activeSection, setActiveSection] = useState("home");
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState("");
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
+            setIsScrolled(window.scrollY > 24);
 
-            // Detect active section
             const sections = navLinks.map((link) => link.href.slice(1));
-            for (const section of sections.reverse()) {
+            let current = "";
+            for (const section of sections) {
                 const element = document.getElementById(section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.top <= 100) {
-                        setActiveSection(section);
-                        break;
-                    }
+                if (element && element.getBoundingClientRect().top <= 120) {
+                    current = section;
                 }
             }
+            setActiveSection(current);
         };
 
+        handleScroll();
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const scrollToSection = (href: string) => {
-        const element = document.getElementById(href.slice(1));
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-        }
-        setIsMobileMenuOpen(false);
+    // Chrome cancels the native fragment scroll while the menu's exit
+    // animation is running, so close first and scroll once it's done.
+    const handleMobileNav = (href: string) => {
+        setIsMenuOpen(false);
+        setTimeout(() => {
+            document
+                .getElementById(href.slice(1))
+                ?.scrollIntoView({ behavior: "smooth" });
+        }, 320);
     };
 
     return (
-        <motion.header
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                    ? "bg-black/80 backdrop-blur-xl border-b border-white/5"
-                    : "bg-transparent"
-                }`}
+        <header
+            className={`fixed top-0 left-0 right-0 z-50 bg-paper transition-shadow duration-300 ${
+                isScrolled ? "border-b border-rule" : ""
+            }`}
         >
-            <nav className="container-custom py-4 flex items-center justify-between">
-                <motion.a
-                    href="#home"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection("#home");
-                    }}
-                    className="cursor-pointer relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#8b5cf6] group"
-                    whileHover={{ scale: 1.15 }}
-                    whileTap={{ scale: 0.95 }}
+            <nav className="container-page flex items-center justify-between py-4">
+                <a
+                    href="#top"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="font-display text-lg font-semibold tracking-tight text-ink hover:text-accent transition-colors"
                 >
-                    <motion.div
-                        className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6] to-[#3b82f6] opacity-0 group-hover:opacity-30 transition-opacity"
-                    />
-                    <motion.div
-                        className="absolute inset-[-2px] rounded-full bg-gradient-to-r from-[#8b5cf6] via-[#3b82f6] to-[#a855f7] opacity-0 group-hover:opacity-100 transition-opacity"
-                        animate={{
-                            rotate: [0, 360],
-                        }}
-                        transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "linear",
-                        }}
-                    />
-                    <Image
-                        src="/profile.jpg"
-                        alt="Vandan Sheth"
-                        fill
-                        className="object-cover relative z-10"
-                        sizes="40px"
-                    />
-                </motion.a>
+                    Vandan Sheth
+                </a>
 
-                {/* Desktop Nav - Pill Style */}
-                <div className="hidden md:flex items-center gap-1 bg-black/40 backdrop-blur-md rounded-full p-1 border border-white/5">
+                {/* Desktop nav */}
+                <div className="hidden md:flex items-center gap-7">
                     {navLinks.map((link) => (
-                        <motion.a
+                        <a
                             key={link.name}
                             href={link.href}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                scrollToSection(link.href);
-                            }}
-                            className={`nav-pill relative text-sm font-medium ${activeSection === link.href.slice(1)
-                                    ? "text-white"
-                                    : "text-gray-400 hover:text-white"
-                                }`}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            className={`eyebrow transition-colors hover:text-accent ${
+                                activeSection === link.href.slice(1)
+                                    ? "text-accent"
+                                    : ""
+                            }`}
                         >
-                            {activeSection === link.href.slice(1) && (
-                                <motion.div
-                                    layoutId="nav-pill-bg"
-                                    className="absolute inset-0 bg-[#8b5cf6] rounded-full"
-                                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                />
-                            )}
-                            <span className="relative z-10">{link.name}</span>
-                        </motion.a>
+                            {link.name}
+                        </a>
                     ))}
+                    <a
+                        href={RESUME_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="eyebrow border border-rule-strong rounded-[2px] px-4 py-2 text-ink transition-colors hover:border-accent hover:text-accent"
+                    >
+                        Résumé ↗
+                    </a>
                 </div>
 
-                {/* Resume Button - Enhanced with fixed hover */}
-                <motion.a
-                    href="https://drive.google.com/file/d/124To-yuuO7wtlCFQ_4GQw-W6hmWA9i_t/view?usp=drive_link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full font-medium text-sm 
-                               bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] text-white
-                               border border-transparent
-                               transition-all duration-300 ease-out
-                               hover:shadow-[0_0_30px_rgba(139,92,246,0.5)]
-                               hover:from-[#9b6cf7] hover:to-[#4b92f7]"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
+                {/* Mobile menu button */}
+                <button
+                    className="md:hidden eyebrow text-ink py-2"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-expanded={isMenuOpen}
+                    aria-label="Toggle menu"
                 >
-                    <motion.span
-                        animate={{ y: [0, -2, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                        <FaDownload className="text-sm" />
-                    </motion.span>
-                    <span>Resume</span>
-                </motion.a>
-
-                {/* Mobile Menu Button */}
-                <motion.button
-                    className="md:hidden p-2 text-white"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    whileTap={{ scale: 0.9 }}
-                >
-                    {isMobileMenuOpen ? (
-                        <HiX className="text-2xl" />
-                    ) : (
-                        <HiMenu className="text-2xl" />
-                    )}
-                </motion.button>
+                    {isMenuOpen ? "Close" : "Menu"}
+                </button>
             </nav>
 
-            {/* Mobile Menu */}
+            {/* Mobile menu */}
             <AnimatePresence>
-                {isMobileMenuOpen && (
+                {isMenuOpen && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-black/95 backdrop-blur-xl border-b border-white/10 relative overflow-hidden"
+                        transition={{ duration: 0.25, ease: "easeOut" }}
+                        className="md:hidden overflow-hidden border-b border-rule bg-paper"
                     >
-                        <motion.div
-                            className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/5 via-transparent to-[#3b82f6]/5 opacity-50"
-                            animate={{
-                                backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-                            }}
-                            transition={{
-                                duration: 10,
-                                repeat: Infinity,
-                                ease: "linear",
-                            }}
-                            style={{
-                                backgroundSize: "200% 200%",
-                            }}
-                        />
-                        <div className="container-custom py-4 space-y-2 relative z-10">
-                            {navLinks.map((link, index) => (
-                                <motion.a
+                        <div className="container-page flex flex-col gap-1 py-4">
+                            {navLinks.map((link) => (
+                                <a
                                     key={link.name}
                                     href={link.href}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        scrollToSection(link.href);
-                                    }}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.08 }}
-                                    className={`block py-3 px-4 rounded-xl text-lg font-medium transition-all relative overflow-hidden ${activeSection === link.href.slice(1)
-                                            ? "bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] text-white shadow-lg"
-                                            : "text-gray-400 hover:text-white hover:bg-white/5"
-                                        }`}
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() => handleMobileNav(link.href)}
+                                    className={`eyebrow py-3 border-b border-rule last:border-b-0 transition-colors hover:text-accent ${
+                                        activeSection === link.href.slice(1)
+                                            ? "text-accent"
+                                            : ""
+                                    }`}
                                 >
                                     {link.name}
-                                </motion.a>
+                                </a>
                             ))}
-                            <motion.a
-                                href="https://drive.google.com/file/d/124To-yuuO7wtlCFQ_4GQw-W6hmWA9i_t/view?usp=drive_link"
+                            <a
+                                href={RESUME_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: navLinks.length * 0.08 }}
-                                className="flex items-center gap-2 py-3 px-4 bg-gradient-to-r from-[#8b5cf6] to-[#3b82f6] text-white rounded-xl text-center justify-center mt-4 font-medium shadow-lg relative overflow-hidden group"
-                                whileHover={{ scale: 1.02, boxShadow: "0 10px 30px rgba(139, 92, 246, 0.4)" }}
-                                whileTap={{ scale: 0.98 }}
+                                className="eyebrow py-3 text-accent"
                             >
-                                <motion.div
-                                    className="absolute inset-0 bg-gradient-to-r from-[#3b82f6] to-[#a855f7] opacity-0 group-hover:opacity-100 transition-opacity"
-                                />
-                                <motion.span
-                                    animate={{ y: [0, -3, 0] }}
-                                    transition={{ duration: 1.5, repeat: Infinity }}
-                                    className="relative z-10"
-                                >
-                                    <FaDownload />
-                                </motion.span>
-                                <span className="relative z-10">Download Resume</span>
-                            </motion.a>
+                                Résumé ↗
+                            </a>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </motion.header>
+        </header>
     );
 }
