@@ -139,10 +139,10 @@ export default function Contact() {
 
                             <p className="eyebrow text-night-soft mb-2">Write to me</p>
                             <a
-                                href="mailto:vandansheth.work@gmail.com"
+                                href="mailto:vandanbsheth9@gmail.com"
                                 className="link-night text-xl md:text-2xl font-display"
                             >
-                                vandansheth.work@gmail.com
+                                vandanbsheth9@gmail.com
                             </a>
 
                             <div className="border-t border-night-rule mt-10 pt-6">
