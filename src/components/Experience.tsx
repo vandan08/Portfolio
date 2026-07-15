@@ -11,6 +11,7 @@ const experiences = [
         duration: "Jul 2024 — Present",
         description: [
             "Build scalable backend modules in Core Java with RESTful APIs that streamline enterprise workflows.",
+            "Delivered a CorePlan API integration end-to-end, solo — timed batches sync ~10k records daily and configurations weekly through a multithreaded fetch pool, surfaced in eight Angular 19 chart dashboards.",
             "Designed an AI wrapper supporting multiple LLM providers (OpenAI, Anthropic) behind one unified API.",
             "Implemented Model Context Protocol (MCP) workflows for contextual memory, tool usage, and knowledge grounding across AI projects.",
             "Integrated the Eway payment gateway and Chargebee for secure payments and automated billing.",

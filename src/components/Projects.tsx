@@ -69,20 +69,16 @@ const projects: Project[] = [
         note: "Proprietary client work",
     },
     {
-        title: "VendorConnect",
+        title: "BWEDrilling — CorePlan Integration",
         description:
-            "An AI-powered service marketplace with an MCP server for LLM-to-backend orchestration, conversational job management, and semantic vendor search.",
+            "A CorePlan integration for a drilling-operations platform, delivered end-to-end solo — from batch design to dashboards. Scheduled jobs pull nearly 10,000 records a day from the CorePlan API into the system.",
         features: [
-            "MCP server for LLM-to-backend orchestration",
-            "RAG pipeline with vector embeddings for semantic search",
-            "JWT/OAuth authentication with role-based access control",
-            "Real-time dashboards and six-language internationalization",
+            "Timed sync batches — operational data synced daily, configurations weekly",
+            "Multithreaded fetch pool sized for ~10k records/day, tuned to prevent deadlocks",
+            "Ingested API data surfaced across eight chart dashboards in Angular 19",
         ],
-        techStack: ["Java", "Spring Boot", "Spring AI", "React", "MySQL", "RAG"],
-        links: [
-            { label: "Frontend", url: "https://github.com/vandan08/vendr-connect-nexus" },
-            { label: "Backend", url: "https://github.com/vandan08/VenderEconnect-Backend" },
-        ],
+        techStack: ["Java", "Spring Boot", "Multithreading", "Batch Scheduling", "Angular 19", "REST APIs"],
+        note: "Client work — built solo",
     },
     {
         title: "Skyline Estate",
