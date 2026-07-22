@@ -26,21 +26,29 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "Vandan Sheth — Software Engineer",
   description:
-    "Software Engineer at OneIT. I build dependable enterprise software with Java, Angular, and modern AI tooling — and I care about how it's made.",
+    "Software Engineer at OneIT. I build dependable backend and cloud systems with Java, Spring Boot, AWS and GCP — and I care about how they're made.",
   keywords: [
     "Software Engineer",
     "Java",
     "Spring Boot",
+    "Cloud Engineer",
+    "AWS",
+    "GCP",
+    "Google Cloud",
+    "Kubernetes",
+    "Docker",
+    "Kafka",
+    "Distributed Systems",
     "Angular",
     "React",
-    "Full Stack Developer",
+    "Backend Developer",
     "AI Engineer",
   ],
   authors: [{ name: "Vandan Sheth" }],
   openGraph: {
     title: "Vandan Sheth — Software Engineer",
     description:
-      "Software Engineer at OneIT. Dependable enterprise software with Java, Angular, and modern AI tooling.",
+      "Software Engineer at OneIT. Dependable backend and cloud systems with Java, Spring Boot, AWS and GCP.",
     type: "website",
   },
 };

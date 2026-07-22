@@ -19,6 +19,66 @@ interface Project {
 
 const projects: Project[] = [
     {
+        title: "Vigil",
+        description:
+            "One outage produces hundreds of alerts. Vigil is an open, self-hostable incident response platform — incident.io you can run on a €5 VPS — that collapses alert noise into a single incident with a timeline, notifies the on-call, and gets out of the way.",
+        features: [
+            "Alertmanager ingestion with label-set fingerprinting and sliding-window dedup — an alert storm becomes one incident, not five hundred",
+            "Incident state machine with validated lifecycle transitions and an append-only timeline, the raw material for postmortems",
+            "Live ops console embedded in the single Go binary via go:embed, streaming over SSE with a never-block-ingestion fan-out bus",
+            "Slack notifications through a bounded lossy dispatcher — a slow webhook can never stall alert intake",
+            "Monitors itself: hand-rolled Prometheus /metrics exporter with a latency histogram aligned to its own p99 SLO",
+        ],
+        techStack: ["Go", "stdlib-only core", "SSE", "Prometheus", "Alertmanager", "Docker", "GitHub Actions"],
+        links: [{ label: "GitHub", url: "https://github.com/vandan08/Vigil-" }],
+        note: "In active development",
+    },
+    {
+        title: "Quoinly",
+        description:
+            "AI-powered personal wealth management. Most money apps show you a balance; Quoinly connects the real accounts, categorises the spend on its own, and answers the question you actually have — am I going to be fine? — from a terminal-inspired dashboard.",
+        features: [
+            "Live bank connectivity through Stripe Financial Connections, with Plaid and Teller adapters behind the same interface",
+            "20+ serverless edge functions on a Deno runtime — transaction sync, AI categorisation, receipt scanning, scheduled report mail",
+            "An AI investment advisor and retirement planner grounded in the user's own ledger, not generic advice",
+            "Row-level-secured Postgres with timestamped migrations; realtime subscriptions push account state to the UI as it changes",
+            "Ships to web and to iOS/Android through a Capacitor shell from one codebase",
+        ],
+        techStack: [
+            "React 18",
+            "TypeScript",
+            "Vite",
+            "Supabase (Postgres · Auth · Edge Functions)",
+            "Deno",
+            "Stripe",
+            "Capacitor",
+            "Tailwind CSS",
+        ],
+        note: "In active development",
+    },
+    {
+        title: "FraudFlux",
+        description:
+            "Fraud has to be caught in the gap between the tap and the receipt. FraudFlux is an event-driven microservice platform that scores a transaction as it moves through the pipeline, using temporal behaviour rather than static rules.",
+        features: [
+            "Seven Spring Boot services communicating over Kafka topics — transaction, fraud, risk, decision, audit, notification, gateway",
+            "Temporal detection in Redis: sliding-window velocity checks and per-account behaviour drift",
+            "CQRS read model in PostgreSQL fed by an audit service subscribed to every topic",
+            "Live Angular dashboard driven by WebSocket push, so analysts watch decisions land in real time",
+        ],
+        techStack: [
+            "Java 17",
+            "Spring Boot",
+            "Apache Kafka",
+            "Redis",
+            "PostgreSQL",
+            "Spring Cloud Gateway",
+            "Angular",
+            "Docker Compose",
+        ],
+        links: [{ label: "GitHub", url: "https://github.com/vandan08/FraudFlux" }],
+    },
+    {
         title: "ChainSentry",
         description:
             "Supply-chain security, built into your CI. Most vulnerability scans drown teams in alerts; fewer than 5% are ever exploited. ChainSentry ranks findings by real-world exploitability so the ones that matter surface first.",
@@ -81,17 +141,18 @@ const projects: Project[] = [
         note: "Client work — built solo",
     },
     {
-        title: "Skyline Estate",
+        title: "Ledgerline",
         description:
-            "A real estate platform that breaks from convention by letting sellers define their own property types, with better discovery to match.",
+            "A green contribution square proves nothing. Almost all paid engineering happens in private repositories, so a developer can spend two years doing excellent work and leave with no portable evidence of it. Ledgerline issues signed, verifiable receipts for that history.",
         features: [
-            "Dynamic property type creation during listing",
-            "Advanced filtering and category management",
-            "User dashboard for listing and management",
-            "30% faster page loads via optimized backend queries",
+            "A receipt never claims to be true — it carries the basis for believing it, as a tier: self-attested, corroborated by independent reviewers, or countersigned by an org admin",
+            "Aggregate PR metadata only: counts, date ranges, active months, languages, coarse change bands — no code, no diffs, no file names, repository names hashed by default",
+            "Tier 2 is reachable from metadata alone, so a single user gets something useful on day one without waiting on their employer",
+            "Independent verifier that checks a receipt's signature and renders its basis for a third party",
         ],
-        techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
-        links: [{ label: "GitHub", url: "https://github.com/vandan08/skyline-estate" }],
+        techStack: ["TypeScript", "GitHub API", "Cryptographic signing", "Postgres"],
+        links: [{ label: "GitHub", url: "https://github.com/vandan08/ledgerline" }],
+        note: "In active development",
     },
 ];
 

@@ -13,16 +13,38 @@ const skillCategories = [
         skills: ["Spring Boot", "Hibernate", "Angular", "React.js", "Node.js", "Express.js"],
     },
     {
+        title: "Cloud",
+        skills: [
+            "AWS — EC2, S3, SQS, SNS",
+            "Google Cloud",
+            "Supabase",
+            "Serverless / Edge Functions",
+            "Render",
+            "Netlify",
+        ],
+    },
+    {
+        title: "Infrastructure & DevOps",
+        skills: [
+            "Docker",
+            "Kubernetes",
+            "GitHub Actions",
+            "Jenkins",
+            "Prometheus",
+            "Kafka",
+        ],
+    },
+    {
         title: "Databases",
-        skills: ["PostgreSQL", "MySQL", "MongoDB"],
+        skills: ["PostgreSQL", "MySQL", "MongoDB", "Redis"],
     },
     {
         title: "AI Engineering",
         skills: ["RAG", "CAG", "MCP", "Spring AI", "Vector DBs", "Context Design"],
     },
     {
-        title: "Tools & Platforms",
-        skills: ["Git & GitHub", "Docker", "Jenkins", "Postman", "IntelliJ IDEA", "Render"],
+        title: "Tools",
+        skills: ["Git & GitHub", "Maven", "Postman", "IntelliJ IDEA", "Supabase CLI"],
     },
 ];
 

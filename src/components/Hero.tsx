@@ -15,7 +15,7 @@ const socialLinks = [
 
 const facts = [
     { label: "Currently", value: "Software Engineer, OneIT" },
-    { label: "Focus", value: "Java · Angular · AI Systems" },
+    { label: "Focus", value: "Java · Cloud (AWS · GCP) · Distributed Systems" },
     { label: "Location", value: "India — working remotely" },
 ];
 
@@ -76,9 +76,10 @@ export default function Hero() {
                             {...rise}
                             transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
                         >
-                            I build dependable software for the web — enterprise
-                            systems in Java and Angular by trade, AI-powered tools by
-                            curiosity. I care as much about{" "}
+                            I build dependable backend systems and ship them to the
+                            cloud — Java and Spring Boot on AWS and GCP by trade,
+                            event-driven and AI-powered tools by curiosity. I care as
+                            much about{" "}
                             <em className="italic text-ink">how</em> a thing is made
                             as whether it works.
                         </motion.p>
