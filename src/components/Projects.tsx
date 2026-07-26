@@ -6,6 +6,8 @@ import SectionHeading from "./SectionHeading";
 interface ProjectLink {
     label: string;
     url: string;
+    /** A running deployment — given the accent so it outranks the source link. */
+    primary?: boolean;
 }
 
 interface Project {
@@ -54,6 +56,7 @@ const projects: Project[] = [
             "Capacitor",
             "Tailwind CSS",
         ],
+        links: [{ label: "Live site", url: "https://quoinly.net", primary: true }],
         note: "In active development",
     },
     {
@@ -151,7 +154,10 @@ const projects: Project[] = [
             "Independent verifier that checks a receipt's signature and renders its basis for a third party",
         ],
         techStack: ["TypeScript", "GitHub API", "Cryptographic signing", "Postgres"],
-        links: [{ label: "GitHub", url: "https://github.com/vandan08/ledgerline" }],
+        links: [
+            { label: "Live site", url: "https://ledgerline.vandansheth.in", primary: true },
+            { label: "GitHub", url: "https://github.com/vandan08/ledgerline" },
+        ],
         note: "In active development",
     },
 ];
@@ -201,7 +207,11 @@ export default function Projects() {
                                                 href={link.url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="eyebrow link-ink no-underline hover:text-accent transition-colors"
+                                                className={`eyebrow no-underline transition-colors ${
+                                                    link.primary
+                                                        ? "text-accent hover:text-ink"
+                                                        : "link-ink hover:text-accent"
+                                                }`}
                                             >
                                                 {link.label} ↗
                                             </a>
