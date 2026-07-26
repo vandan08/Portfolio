@@ -114,7 +114,7 @@ export default function Contact() {
                 <AnimatedSection>
                     <SectionHeading
                         dark
-                        number="05"
+                        number="06"
                         label="Correspondence"
                         title={
                             <>

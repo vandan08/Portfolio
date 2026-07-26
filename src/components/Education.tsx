@@ -15,11 +15,11 @@ const coursework = [
 
 export default function Education() {
     return (
-        <section id="education" className="py-20 md:py-28 bg-paper-deep scroll-mt-16">
+        <section id="education" className="py-20 md:py-28 scroll-mt-16">
             <div className="container-page">
                 <AnimatedSection>
                     <SectionHeading
-                        number="04"
+                        number="05"
                         label="Education"
                         title={
                             <>

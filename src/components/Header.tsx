@@ -9,6 +9,7 @@ const navLinks = [
     { name: "Experience", href: "#experience" },
     { name: "Projects", href: "#projects" },
     { name: "Capabilities", href: "#skills" },
+    { name: "The Lab", href: "/lab" },
     { name: "Education", href: "#education" },
     { name: "Contact", href: "#contact" },
 ];
@@ -42,6 +43,8 @@ export default function Header() {
     // animation is running, so close first and scroll once it's done.
     const handleMobileNav = (href: string) => {
         setIsMenuOpen(false);
+        // Route links (e.g. "/lab") navigate normally — only in-page anchors scroll.
+        if (!href.startsWith("#")) return;
         setTimeout(() => {
             document
                 .getElementById(href.slice(1))
