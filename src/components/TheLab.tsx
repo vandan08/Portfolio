@@ -1,10 +1,12 @@
-import Link from "next/link";
 import AnimatedSection from "./AnimatedSection";
 import SectionHeading from "./SectionHeading";
+import Link from "next/link";
+import { EXPERIMENTS_PATH, LAB_URL } from "@/lib/links";
 
 /**
- * Homepage teaser for The Lab. The full interactive experience lives on its
- * own page at /lab; this card drives clicks there.
+ * Homepage teaser for The Lab. The full interactive experience is a separate
+ * project with its own deployment at lab.vandansheth.in; this card sends
+ * visitors there, and the line beneath it opens the full experiments index.
  */
 export default function TheLab() {
     return (
@@ -23,8 +25,8 @@ export default function TheLab() {
                 </AnimatedSection>
 
                 <AnimatedSection delay={0.1}>
-                    <Link
-                        href="/lab"
+                    <a
+                        href={LAB_URL}
                         className="group block rounded-[3px] border border-rule bg-paper-raised transition-colors hover:border-accent"
                     >
                         <div className="grid md:grid-cols-12 items-center gap-6 md:gap-8 p-6 md:p-9">
@@ -37,7 +39,7 @@ export default function TheLab() {
                                     <em className="italic text-accent font-normal">think</em>
                                 </h3>
                                 <p className="text-ink-soft max-w-xl mb-6">
-                                    A small interactive product built into this site: type-a-problem,
+                                    A small interactive product of its own: type-a-problem,
                                     see it solved. It steps through a graph traversal like a page from
                                     a technical journal — a live diagram beside a monospace state
                                     ledger. The animation is driven by the real algorithm, not a model.
@@ -73,7 +75,19 @@ export default function TheLab() {
                                 </svg>
                             </div>
                         </div>
-                    </Link>
+                    </a>
+                </AnimatedSection>
+
+                <AnimatedSection delay={0.15}>
+                    <p className="mt-6 text-ink-soft">
+                        One of two experiments — small, deliberately narrow, not products.{" "}
+                        <Link
+                            href={EXPERIMENTS_PATH}
+                            className="eyebrow text-accent transition-colors hover:text-ink"
+                        >
+                            See both →
+                        </Link>
+                    </p>
                 </AnimatedSection>
             </div>
         </section>

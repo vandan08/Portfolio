@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { EXPERIMENTS_PATH } from "@/lib/links";
 
 const RESUME_URL = "/resume.pdf";
 
@@ -9,7 +10,7 @@ const navLinks = [
     { name: "Experience", href: "#experience" },
     { name: "Projects", href: "#projects" },
     { name: "Capabilities", href: "#skills" },
-    { name: "The Lab", href: "/lab" },
+    { name: "Experiments", href: EXPERIMENTS_PATH },
     { name: "Education", href: "#education" },
     { name: "Contact", href: "#contact" },
 ];
@@ -43,7 +44,7 @@ export default function Header() {
     // animation is running, so close first and scroll once it's done.
     const handleMobileNav = (href: string) => {
         setIsMenuOpen(false);
-        // Route links (e.g. "/lab") navigate normally — only in-page anchors scroll.
+        // Links to other pages (e.g. Experiments) navigate normally — only in-page anchors scroll.
         if (!href.startsWith("#")) return;
         setTimeout(() => {
             document
