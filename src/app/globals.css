@@ -97,8 +97,12 @@ body::after {
 /* ------------------------------------------------------------
    Editorial primitives
    ------------------------------------------------------------ */
+/* The page measure. Fluid rather than fixed, so a 24" display gets a page in
+   the same proportion as a laptop instead of two hand-spans of empty paper —
+   capped, because a line of body text still has to be readable. */
 .container-page {
-  max-width: 1100px;
+  width: 100%;
+  max-width: clamp(1100px, 78vw, 1440px);
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -242,4 +246,101 @@ select.field-night {
 select.field-night option {
   background: var(--night);
   color: var(--night-ink);
+}
+
+/* ------------------------------------------------------------
+   The project reel — a window cut into the page, with the list
+   of titles sliding up behind it.
+   ------------------------------------------------------------ */
+.reel-window {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 15%,
+    #000 74%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 15%,
+    #000 74%,
+    transparent 100%
+  );
+}
+
+/* The reading line the rail's titles glide past — a hairline with an accent
+   tick at the margin, so the window has a fixed place the eye can hold. */
+.reel-line {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: linear-gradient(
+    to right,
+    rgba(71, 121, 156, 0.07),
+    transparent 55%
+  );
+}
+
+.reel-line::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 2px;
+  background: var(--accent);
+}
+
+/* A plate arriving on the reel, and an article arriving in the dossier: the
+   same short, undramatic settle. No fill mode on purpose — a keyframe that
+   starts at opacity 0 must never be able to strand the content invisible if
+   the animation is not running (a background tab, a throttled renderer). */
+.reel-plate-in {
+  animation: plate-in 620ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dossier-in {
+  animation: plate-in 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes plate-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reel-plate-in,
+  .dossier-in {
+    animation: none;
+  }
+}
+
+/* The dwell indicator under the plate: fills once, then the reel advances. */
+@keyframes reel-dwell {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Plate for a project with no recording — graph paper, not a grey box. */
+.reel-set-plate {
+  background-color: var(--paper-raised);
+  background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(33, 28, 20, 0.055) 0 1px,
+      transparent 1px 34px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(33, 28, 20, 0.055) 0 1px,
+      transparent 1px 34px
+    );
 }
