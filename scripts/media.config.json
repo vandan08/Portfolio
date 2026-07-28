@@ -1,0 +1,140 @@
+{
+    "$comment": [
+        "Source media for the project reel. Raw recordings and screenshots are far",
+        "too heavy to ship, so nothing here is committed — `npm run media` reduces",
+        "each entry into public/media/<slug>/, which is.",
+        "",
+        "dir      — where the raw assets live. Relative paths resolve from the repo",
+        "           root; absolute paths (another drive, your Pictures folder) work",
+        "           just as well, so nothing has to be copied into the repo.",
+        "clip     — the recording behind the plate. The whole walkthrough is used;",
+        "           `start` trims a dead head and `duration` a dead tail, and",
+        "           `poster` picks the frame the plate holds before it plays.",
+        "           Omit `clip` and the project simply gets no video.",
+        "stills   — optional. Listing files gives them meaningful output names and a",
+        "           fixed order. Omit it and every image in `dir` is used, in name",
+        "           order, named after its own filename. `at` pulls a still out of a",
+        "           recording at that second instead of off an image file.",
+        "",
+        "Captions live beside each shot in src/lib/projects.ts — adding an image",
+        "here does not put it on the site until it is referenced there."
+    ],
+    "projects": [
+        {
+            "slug": "autohawk",
+            "dir": "D:/Videos/Screen Recordings",
+            "clip": { "file": "AutoHawk.mp4", "poster": 3 },
+            "stills": [
+                { "file": "AutoHawk.mp4", "at": 3, "name": "landing" },
+                { "file": "AutoHawk.mp4", "at": 45, "name": "profile" },
+                { "file": "AutoHawk.mp4", "at": 22, "name": "shortlist" },
+                { "file": "AutoHawk.mp4", "at": 12, "name": "providers" },
+                { "file": "AutoHawk.mp4", "at": 88, "name": "letter" }
+            ]
+        },
+        {
+            "slug": "talon",
+            "dir": "D:/Videos/Screen Recordings",
+            "clip": { "file": "Screen Recording 2026-08-24 203058.mp4", "poster": 2 },
+            "stills": [
+                {
+                    "file": "C:/Users/admin/Pictures/Screenshots/Screenshot 2026-08-24 203137.png",
+                    "name": "landing"
+                },
+                {
+                    "file": "C:/Users/admin/Pictures/Screenshots/Screenshot 2026-08-24 203211.png",
+                    "name": "sources"
+                },
+                {
+                    "file": "C:/Users/admin/Pictures/Screenshots/Screenshot 2026-08-24 203229.png",
+                    "name": "draft"
+                },
+                {
+                    "file": "C:/Users/admin/Pictures/Screenshots/Screenshot 2026-08-24 203242.png",
+                    "name": "pipeline"
+                }
+            ]
+        },
+        {
+            "slug": "preflight",
+            "dir": "D:/Videos/Screen Recordings",
+            "clip": { "file": "Screen Recording 2026-08-20 221854.mp4", "poster": 6 },
+            "stills": [
+                {
+                    "file": "C:/Users/admin/Pictures/Screenshots/Screenshot 2026-08-20 222116.png",
+                    "name": "landing"
+                },
+                {
+                    "file": "C:/Users/admin/Pictures/Screenshots/Screenshot 2026-08-20 222038.png",
+                    "name": "run"
+                },
+                { "file": "Screen Recording 2026-08-20 221854.mp4", "at": 30, "name": "finding" },
+                { "file": "Screen Recording 2026-08-20 221854.mp4", "at": 58, "name": "fix-plan" }
+            ]
+        },
+        {
+            "slug": "quoinly",
+            "dir": "public/projects/Quoinly",
+            "clip": { "file": "D:/Videos/Screen Recordings/Quoinly.mp4", "poster": 5 },
+            "stills": [
+                { "file": "image copy.png", "name": "dashboard" },
+                { "file": "image copy 2.png", "name": "budget" },
+                { "file": "image copy 3.png", "name": "tracking" },
+                { "file": "image copy 4.png", "name": "sankey" },
+                { "file": "image copy 5.png", "name": "budget-analysis" },
+                { "file": "image copy 6.png", "name": "transactions" },
+                { "file": "image copy 7.png", "name": "calendar" },
+                { "file": "image copy 8.png", "name": "advisor" }
+            ]
+        },
+        {
+            "slug": "atlas",
+            "dir": "D:/Videos/Screen Recordings",
+            "clip": { "file": "Screen Recording 2026-08-20 224242.mp4", "poster": 14 },
+            "stills": [
+                { "file": "Screen Recording 2026-08-20 224242.mp4", "at": 21, "name": "index" },
+                { "file": "Screen Recording 2026-08-20 224242.mp4", "at": 43, "name": "artefacts" },
+                { "file": "Screen Recording 2026-08-20 224242.mp4", "at": 65, "name": "arithmetic" },
+                { "file": "Screen Recording 2026-08-20 224242.mp4", "at": 87, "name": "atlas" }
+            ]
+        },
+        {
+            "slug": "fraudflux",
+            "dir": "D:/Videos/Screen Recordings",
+            "clip": { "file": "FraudFox.mp4", "poster": 3 },
+            "stills": [
+                { "file": "FraudFox.mp4", "at": 20, "name": "topology" },
+                { "file": "FraudFox.mp4", "at": 12, "name": "decision-log" },
+                { "file": "FraudFox.mp4", "at": 40, "name": "scorer" },
+                { "file": "FraudFox.mp4", "at": 48, "name": "stack" }
+            ]
+        },
+        {
+            "slug": "chainsentry",
+            "dir": "D:/Videos/Screen Recordings",
+            "clip": { "file": "chainsentry.mp4", "poster": 3 },
+            "stills": [
+                { "file": "chainsentry.mp4", "at": 12, "name": "ranking" },
+                { "file": "chainsentry.mp4", "at": 30, "name": "dashboard" },
+                { "file": "chainsentry.mp4", "at": 40, "name": "gate" },
+                { "file": "chainsentry.mp4", "at": 48, "name": "findings" }
+            ]
+        },
+        {
+            "slug": "ledgerline",
+            "dir": "public/projects/Ledgerline",
+            "stills": [{ "file": "main.png", "name": "receipt" }]
+        },
+        {
+            "slug": "credlayer",
+            "dir": "public/projects/CredLayer",
+            "clip": { "file": "D:/Videos/Screen Recordings/credLayer.mp4", "poster": 3 },
+            "stills": [
+                { "file": "cl4.png", "name": "dashboard" },
+                { "file": "cl1.png", "name": "borrow" },
+                { "file": "cl3.png", "name": "score-history" },
+                { "file": "cl2.png", "name": "history" }
+            ]
+        }
+    ]
+}

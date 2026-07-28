@@ -45,3 +45,6 @@ next-env.d.ts
 
 # Old Next.js subfolder (can be deleted manually)
 portfolio-next/
+
+# Raw project media — reduced into public/media by `npm run media`
+public/projects/
