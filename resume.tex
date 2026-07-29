@@ -1,0 +1,326 @@
+\documentclass[10pt, letterpaper]{article}
+
+% ============================================================
+% Vandan Sheth — Résumé
+% Two pages. Single-column body, standard section names,
+% no graphics/icons/tables in the text flow — ATS-parseable.
+% Compile with pdflatex (Overleaf default works).
+% ============================================================
+
+\usepackage[
+    ignoreheadfoot,
+    top=1.6 cm,
+    bottom=1.6 cm,
+    left=1.8 cm,
+    right=1.8 cm,
+    footskip=1.0 cm,
+]{geometry}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primaryColor}{RGB}{0, 0, 0}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage[
+    pdftitle={Vandan Sheth - Resume},
+    pdfauthor={Vandan Sheth},
+    pdfcreator={LaTeX},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref}
+\usepackage{calc}
+\usepackage{bookmark}
+\usepackage{changepage}
+\usepackage{paracol}
+\usepackage{needspace}
+\usepackage{iftex}
+
+% Machine-readable text layer:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+\raggedright
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt}
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\topskip}{0pt}
+\setlength{\columnsep}{0.15cm}
+\pagenumbering{gobble}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titlespacing{\section}{-1pt}{0.28 cm}{0.18 cm}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.08 cm,
+        parsep=0.08 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm
+    ]
+}{
+    \end{itemize}
+}
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{0 cm}{0 cm}
+}{
+    \end{adjustwidth}
+}
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+}
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.4}
+}{
+    \par\kern\topsep
+}
+
+\let\hrefWithoutArrow\href
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{\ \textbar\ }
+
+    % ------------------------------------------------ HEADER
+    \begin{header}
+        \fontsize{24 pt}{24 pt}\selectfont Vandan Sheth
+
+        \vspace{4 pt}
+
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:vandanbsheth9@gmail.com}{vandanbsheth9@gmail.com}}%
+        \AND%
+        \mbox{\hrefWithoutArrow{tel:+919909860240}{+91 99098 60240}}%
+        \AND%
+        \mbox{\hrefWithoutArrow{https://www.vandansheth.in/}{vandansheth.in}}%
+        \AND%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/vandan-sheth08/}{LinkedIn}}%
+        \AND%
+        \mbox{\hrefWithoutArrow{https://github.com/vandan08}{GitHub}}%
+        \AND%
+        \mbox{\hrefWithoutArrow{https://leetcode.com/u/vandan08/}{LeetCode}}%
+        \AND%
+        \mbox{\hrefWithoutArrow{https://x.com/vandans08}{X}}%
+    \end{header}
+
+    \vspace{4 pt}
+
+    % ------------------------------------------------ SUMMARY
+    \section{Summary}
+
+    \begin{onecolentry}
+        Software Engineer with strong expertise in \textbf{Java, Spring Boot, and applied AI systems}, focused on scalable backend services and distributed applications. At OneIT, designed enterprise solutions and automation pipelines, including AI-assisted workflows built on \textbf{MCP, agents, and RAG architectures}. Independent work spans \textbf{supply-chain security} (CI-integrated vulnerability triage), \textbf{zero-trust identity}, and \textbf{Web3} — integrating smart-contract systems with production backend services.
+    \end{onecolentry}
+
+    % ------------------------------------------------ SKILLS
+    \section{Skills}
+
+    \begin{onecolentry}
+        \textbf{Languages:} Java, TypeScript, JavaScript, Python, SQL, Ruby, Solidity, Shell Scripting
+    \end{onecolentry}
+    \vspace{0.08 cm}
+
+    \begin{onecolentry}
+        \textbf{Frameworks \& Technologies:} Spring Boot, Hibernate, Angular, React.js, Kafka, REST APIs, Microservices Architecture, System Design, Web3j, Ethers.js, OpenZeppelin, Hardhat
+    \end{onecolentry}
+    \vspace{0.08 cm}
+
+    \begin{onecolentry}
+        \textbf{Databases:} PostgreSQL, MySQL, MongoDB, Redis
+    \end{onecolentry}
+    \vspace{0.08 cm}
+
+    \begin{onecolentry}
+        \textbf{AI Engineering:} RAG, CAG, MCP, Vector Search \& Vector Databases, Context Design, NLP, Neural Networks, Deep Learning
+    \end{onecolentry}
+    \vspace{0.08 cm}
+
+    \begin{onecolentry}
+        \textbf{AI Tools \& Frameworks:} Spring AI, LangChain4j, Claude Code \& Agent Skills, Hugging Face, OpenRouter
+    \end{onecolentry}
+    \vspace{0.08 cm}
+
+    \begin{onecolentry}
+        \textbf{Tools \& Platforms:} Git, GitHub Actions, Maven, Docker, Kubernetes, Jenkins, AWS (EC2, S3, SNS, SQS), Postman, Render, IntelliJ IDEA
+    \end{onecolentry}
+
+    % ------------------------------------------------ EXPERIENCE
+    \section{Experience}
+
+    \begin{twocolentry}{Jul 2024 -- Present}
+        \textbf{Software Engineer}, OneIT --- Remote
+    \end{twocolentry}
+
+    \vspace{0.08 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Built scalable backend modules using \textbf{Core Java} and \textbf{RESTful APIs} to streamline enterprise workflows.
+            \item Built an \textbf{AI wrapper} supporting multiple LLM providers (OpenAI, Anthropic) behind a unified API abstraction.
+            \item Implemented \textbf{Model Context Protocol (MCP)} workflows managing contextual memory, tool usage, and knowledge grounding across multiple AI-powered projects.
+            \item Migrated the production frontend from \textbf{Angular 9 to Angular 19}, improving performance and maintainability.
+            \item Integrated \textbf{Eway Payment Gateway} and \textbf{Chargebee} for secure payments and automated billing.
+            \item Built \textbf{Ruby-based code-generation pipelines} for UI scaffolding, cutting manual development effort.
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{Aug 2023 -- Nov 2023}
+        \textbf{Software Engineer Intern}, TEACHNOOKPRO --- Bangalore, India (Hybrid)
+    \end{twocolentry}
+
+    \vspace{0.08 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Built small-scale web components and APIs in \textbf{JavaScript, React.js, and Node.js}, strengthening full-stack fundamentals.
+            \item Picked up new frameworks and tooling on short timelines across weekly practical assignments.
+        \end{highlights}
+    \end{onecolentry}
+
+    % ------------------------------------------------ PROJECTS
+    \section{Projects}
+
+    % NOTE: project links are right-aligned with \hfill in normal flow, NOT
+    % via twocolentry — hyperref link boxes get misplaced inside paracol.
+    \begin{onecolentry}
+        \textbf{Vigil --- Self-Hosted Incident Response Platform}\hfill{\small\hrefWithoutArrow{https://github.com/vandan08/Vigil-}{github.com/vandan08/Vigil-}}
+    \end{onecolentry}
+
+    \vspace{0.05 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Building an open-source incident response platform in \textbf{Go (stdlib-only core)}: Alertmanager webhook ingestion with \textbf{label-set fingerprinting and sliding-window deduplication}, collapsing alert storms into single incidents driven by a \textbf{validated lifecycle state machine} with an append-only timeline.
+            \item Shipped a \textbf{zero-dependency ops console embedded in the binary} (\texttt{go:embed}) streaming live over \textbf{Server-Sent Events}, and \textbf{non-blocking Slack notifications} via a bounded lossy dispatcher --- alert intake never stalls on a slow consumer.
+            \item Instrumented the platform against its own SLOs with a \textbf{hand-rolled Prometheus exporter} (webhook p99 latency histogram, incident gauges); design decisions documented as \textbf{ADRs}; roadmap includes an AI RCA agent evaluated in CI.
+            \item Tools Used: Go, net/http, SSE, Prometheus, Alertmanager, Docker, GitHub Actions
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{ChainSentry --- Supply-Chain Security for CI}\hfill{\small\hrefWithoutArrow{https://github.com/vandan08/chainsentry}{github.com/vandan08/chainsentry}}
+    \end{onecolentry}
+
+    \vspace{0.05 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Built a CI-integrated platform scanning code, dependencies, and containers, ranking findings by \textbf{real-world exploitability (CVSS + EPSS + CISA KEV)} rather than raw severity --- fewer than 5\% of reported CVEs are ever exploited.
+            \item Implemented \textbf{PR supply-chain delta} reviews showing exactly which new dependencies and vulnerabilities each pull request introduces.
+            \item Added \textbf{policy-as-code gates} with time-boxed suppressions; emits \textbf{CycloneDX SBOMs and OpenVEX} statements; normalizes Trivy, Semgrep, and OWASP Dependency-Check findings into one model.
+            \item Tools Used: Java 24, Spring Boot 4.1 (virtual threads), PostgreSQL 16, Redis, Docker, GitHub Actions
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{Aegis --- Zero-Trust Identity \& Access Platform}\hfill{\small\hrefWithoutArrow{https://github.com/vandan08/aegis-platform}{github.com/vandan08/aegis-platform}}
+    \end{onecolentry}
+
+    \vspace{0.05 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Built a standards-compliant \textbf{OAuth2 / OpenID Connect authorization server} with a policy-enforcing API gateway and a protected demo service proving the chain end to end.
+            \item Enforced fine-grained authorization with \textbf{Open Policy Agent} --- access decisions written as policy, not application code; every request verified, nothing trusted by default.
+            \item Tools Used: Java, Spring Boot, OAuth2/OIDC, Open Policy Agent, Docker
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{onecolentry}
+        \textbf{CredLayer --- DeFi Lending Protocol}\hfill{\small\hrefWithoutArrow{https://github.com/vandan08/CredLayer}{github.com/vandan08/CredLayer} \textbar\ \hrefWithoutArrow{https://cred-layer.vercel.app/dashboard}{cred-layer.vercel.app}}
+    \end{onecolentry}
+
+    \vspace{0.05 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Built a decentralized lending protocol enabling \textbf{under-collateralized loans (as low as 40\% LTV)} using on-chain credit scoring and risk-based pricing.
+            \item Designed a \textbf{hybrid architecture (Solidity + Spring Boot)} integrating smart contracts with an off-chain risk engine for dynamic credit scoring, loan approvals, and interest calculation.
+            \item Developed an \textbf{event-driven backend with Web3j} tracking loans, repayments, and defaults on-chain, updating credit scores and risk bands in real time; secured loan authorization with \textbf{ECDSA signatures}.
+            \item Tools Used: Java 17, Spring Boot, Web3j, Solidity, Hardhat, PostgreSQL, Ethers.js, Next.js
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{Client work, OneIT}
+        \textbf{Aveling --- LMS Portal}
+    \end{twocolentry}
+
+    \vspace{0.05 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Built and maintained \textbf{20+ reusable Angular components} across client, trainer, and admin portals.
+            \item Developed \textbf{Java backend modules} for booking, invoicing, and configuration workflows; integrated \textbf{Eway Payment Gateway} for secure, real-time payment processing.
+            \item Tools Used: Java, Angular 19, REST APIs, PostgreSQL, Eway Payment Gateway
+        \end{highlights}
+    \end{onecolentry}
+
+    \vspace{0.2 cm}
+
+    \begin{twocolentry}{Client work, OneIT}
+        \textbf{BWEDrilling --- Offline-First PWA \& CorePlan Integration}
+    \end{twocolentry}
+
+    \vspace{0.05 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item Delivered a \textbf{CorePlan API integration end-to-end, solo}: scheduled batch jobs sync operational data daily and configurations weekly, ingesting \textbf{$\sim$10,000 records per day} into the system.
+            \item Fetched and processed API data with a \textbf{multithreaded worker pool}, improving throughput and preventing deadlocks; surfaced the results in \textbf{8 chart dashboards built in Angular 19}.
+            \item Built an \textbf{offline-first PWA (Angular)} for drilling operations using \textbf{IndexedDB} with REST API sync and a \textbf{custom sync engine} (retry logic, error handling, logging) against a Spring Boot backend, enabling data capture in low-connectivity field environments.
+        \end{highlights}
+    \end{onecolentry}
+
+    % ------------------------------------------------ CERTIFICATIONS
+    \section{Certifications}
+
+    \begin{onecolentry}
+        \begin{highlights}
+            \item \href{https://www.udemy.com/certificate/UC-cb01df41-429b-4c2e-b1fc-60c96fb85ced/}{Java + Spring Boot: REST Web Services, MVC, Microservices} --- Udemy
+            \item \href{https://www.udemy.com/certificate/UC-18968747-942e-411c-abe9-f31e5f148ef5/}{Docker for Java Developers} --- Udemy
+            \item \href{https://drive.google.com/drive/folders/11kdCro2_PWed0t7jxECr94ADKgRjZk3c?usp=sharing}{Claude AI Courses} --- Anthropic
+            \item \href{https://profiles.cyfrin.io/u/vandans08/achievements/blockchain-basics}{Blockchain Basics} --- Cyfrin
+        \end{highlights}
+    \end{onecolentry}
+
+    % ------------------------------------------------ EDUCATION
+    \section{Education}
+
+    \begin{twocolentry}{Aug 2021 -- Jun 2024}
+        \textbf{Indus University}, Bachelor of Computer Application
+    \end{twocolentry}
+
+    \vspace{0.08 cm}
+    \begin{onecolentry}
+        \begin{highlights}
+            \item First Class with Distinction --- CGPA 8.16
+            \item \textbf{Coursework:} Data Structures \& Algorithms, Software Architecture \& System Design, DBMS
+        \end{highlights}
+    \end{onecolentry}
+
+\end{document}
