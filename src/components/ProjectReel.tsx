@@ -33,6 +33,12 @@ const PLATE_RATIO = "21 / 10";
  * Every plate is cropped to the same shape, so the page never resizes under the
  * reader. Clicking the plate opens the dossier.
  *
+ * The rail is driven the way a list wants to be driven: a wheel or a trackpad
+ * over it steps through the projects, a drag does the same on touch, and the
+ * arrow keys work because it is a real tablist. At either end of the list the
+ * wheel is handed straight back to the page, so the reel can never trap a
+ * reader who is only trying to scroll past it.
+ *
  * The reel advances on its own but never fights the reader: it stops on hover,
  * on focus, while the dossier is open, when it scrolls out of view, and for
  * anyone who has asked for reduced motion.
@@ -46,6 +52,7 @@ export default function ProjectReel() {
     // The reading line matches the active row, which is taller when a title wraps.
     const [lineHeight, setLineHeight] = useState(LINE);
 
+    const railRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
     const rowRefs = useRef<(HTMLButtonElement | null)[]>([]);
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -114,6 +121,63 @@ export default function ProjectReel() {
             );
         };
     }, [running, active, go]);
+
+    /**
+     * Wheel and trackpad over the rail step through the list.
+     *
+     * Two rules keep this from being a scrolljack. The event is only swallowed
+     * when there is somewhere to go in that direction — at the first project a
+     * scroll up, and at the last a scroll down, belong to the page. And a
+     * gesture is rate-limited, so one flick of a trackpad advances one project
+     * rather than emptying the list.
+     */
+    useEffect(() => {
+        const rail = railRef.current;
+        if (!rail) return;
+
+        let travel = 0;
+        let lastStep = 0;
+
+        const onWheel = (e: WheelEvent) => {
+            const down = e.deltaY > 0;
+            const stuck = down
+                ? active === projects.length - 1
+                : active === 0;
+            if (stuck) return; // the page's scroll, not ours
+
+            e.preventDefault();
+
+            const now = Date.now();
+            if (now - lastStep < 280) return;
+            // A change of direction starts the count again.
+            if ((travel > 0) !== down) travel = 0;
+            travel += e.deltaY;
+
+            if (Math.abs(travel) < 24) return;
+            travel = 0;
+            lastStep = now;
+            setActive((i) =>
+                Math.min(projects.length - 1, Math.max(0, i + (down ? 1 : -1))),
+            );
+        };
+
+        rail.addEventListener("wheel", onWheel, { passive: false });
+        return () => rail.removeEventListener("wheel", onWheel);
+    }, [active]);
+
+    /* ---- the same gesture with a finger, for a touch screen wide enough
+            to be showing the rail at all ---- */
+    const railDrag = useRef<number | null>(null);
+    const onRailPointerDown = (e: React.PointerEvent) => {
+        railDrag.current = e.pointerType === "mouse" ? null : e.clientY;
+    };
+    const onRailPointerUp = (e: React.PointerEvent) => {
+        const from = railDrag.current;
+        railDrag.current = null;
+        if (from === null) return;
+        const dy = from - e.clientY;
+        if (Math.abs(dy) > 40) go(dy > 0 ? 1 : -1);
+    };
 
     /* ---- don't burn CPU decoding a plate nobody is looking at ---- */
     useEffect(() => {
@@ -185,19 +249,25 @@ export default function ProjectReel() {
                         <h3 className="font-display text-3xl font-medium tracking-tight">
                             {project.title}
                         </h3>
-                        <span className="eyebrow shrink-0 text-ink-faint">
+                        <span className="eyebrow shrink-0 text-ink-faint tabular-nums">
                             {String(active + 1).padStart(2, "0")} /{" "}
                             {String(projects.length).padStart(2, "0")}
                         </span>
                     </div>
+                    <p className="eyebrow mb-5 text-ink-faint md:hidden">
+                        Swipe the plate →
+                    </p>
 
                     {/* Desktop: the window, with the list sliding up behind it. */}
                     <div
-                        className="reel-window relative hidden h-[21rem] overflow-hidden md:block"
+                        ref={railRef}
+                        className="reel-window relative hidden h-[21rem] touch-pan-y overflow-hidden md:block"
                         role="tablist"
                         aria-orientation="vertical"
                         aria-label="Selected projects"
                         onKeyDown={onKeyDown}
+                        onPointerDown={onRailPointerDown}
+                        onPointerUp={onRailPointerUp}
                     >
                         {/* The reading line: fixed to the window, titles glide past it. */}
                         <div
@@ -262,25 +332,13 @@ export default function ProjectReel() {
                         </div>
                     </div>
 
-                    {/* Transport — the same controls on every breakpoint */}
-                    <div className="mt-5 flex items-center gap-5 border-t border-rule pt-4">
-                        <button
-                            type="button"
-                            onClick={() => go(-1)}
-                            aria-label="Previous project"
-                            className="eyebrow cursor-pointer text-ink-soft transition-colors hover:text-accent"
-                        >
-                            ↑ Prev
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => go(1)}
-                            aria-label="Next project"
-                            className="eyebrow cursor-pointer text-ink-soft transition-colors hover:text-accent"
-                        >
-                            Next ↓
-                        </button>
-                        <span className="eyebrow ml-auto hidden text-ink-faint md:inline">
+                    {/* No transport: the rail is scrolled. The rule carries the
+                        gesture that drives it, and the reader's place in the set. */}
+                    <div className="mt-5 hidden items-center gap-5 border-t border-rule pt-4 md:flex">
+                        <span className="eyebrow text-ink-faint">
+                            Scroll the list
+                        </span>
+                        <span className="eyebrow ml-auto text-ink-faint tabular-nums">
                             {String(active + 1).padStart(2, "0")} /{" "}
                             {String(projects.length).padStart(2, "0")}
                         </span>
