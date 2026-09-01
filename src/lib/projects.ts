@@ -51,57 +51,6 @@ export interface Project {
 
 export const projects: Project[] = [
     {
-        slug: "talon",
-        title: "Talon",
-        kicker: "Finds client work for freelance developers",
-        description:
-            "Freelance lead generation is a volume problem pretending to be a search problem. Talon pulls opportunity signals from public sources, ranks each one against your actual profile, and drafts the opening message — then makes the send the one thing a schedule can never do on its own.",
-        features: [
-            "Five live sources on the rail — Freelancer.com, GitHub funded issues, Hacker News “Who is hiring”, Google Places and Reddit hiring posts; two more were built, measured, and thrown away for returning noise",
-            "Every lead is scored against the profile and staged in one table: surfaced → contacted → replied, with the budget, reach and source visible on the same row",
-            "Upwork and LinkedIn are deliberately absent — their licences cap stored marketplace data at 24 hours, which collides with keeping an honest history",
-            "The opener is drafted from the posting itself and your real project history, so it argues from evidence rather than adjectives",
-            "Every route in the program funnels through a single send — nothing on a timer can reach a stranger, and the opt-out is added where a prompt cannot remove it",
-        ],
-        techStack: [
-            "Python",
-            "PostgreSQL",
-            "Anthropic / OpenAI",
-            "Reddit API",
-            "Google Places",
-            "SMTP",
-            "Docker",
-        ],
-        note: "In active development",
-        media: {
-            clip: "talon",
-            ratio: "1918 / 946",
-            caption: "The full run — sources, scoring, the draft, and the send",
-        },
-        shots: [
-            {
-                src: "/media/talon/landing.webp",
-                caption:
-                    "The field above: 2,058 job postings, six companies, zero worth engineering contract work.",
-            },
-            {
-                src: "/media/talon/sources.webp",
-                caption:
-                    "Five sources on the rail. Two more were built, measured, and thrown away.",
-            },
-            {
-                src: "/media/talon/draft.webp",
-                caption:
-                    "The draft, with the lead router in full beside it — one route reaches a stranger.",
-            },
-            {
-                src: "/media/talon/pipeline.webp",
-                caption:
-                    "The pipeline: every lead scored, staged, and priced, in a single table.",
-            },
-        ],
-    },
-    {
         slug: "autohawk",
         title: "AutoHawk",
         kicker: "Two hundred postings, scored down to four",
@@ -157,49 +106,6 @@ export const projects: Project[] = [
                 src: "/media/autohawk/letter.webp",
                 caption:
                     "The letter, tailored from the posting and your own history, as DOCX or plain text. Then it stops.",
-            },
-        ],
-    },
-    {
-        slug: "preflight",
-        title: "Preflight",
-        kicker: "The error message is lying to you",
-        description:
-            "A build fails with “invalid target release: 24” and the message names the wrong thing — your JDK is fine, JAVA_HOME just points somewhere your shell does not. Preflight is a developer environment doctor that names the actual cause across toolchains, env files, services, ports and Windows, and fixes what it can do safely.",
-        features: [
-            "25 diagnoses, each carrying detected, expected, why and fix — never a bare pass/fail you then have to research",
-            "Catches the disagreements, not just the absences: a second git shadowing the intended one on PATH, a console code page that garbles non-ASCII output, long paths that fail only for files that are plainly there",
-            "Fixes are classified before anything runs — automatic, assisted, or manual — and the fix command dry-runs the whole plan first",
-            "Never writes a value into an env file: it names the missing keys and refuses to invent them, because that is your team’s secret store’s job",
-            "Zero daemons, zero telemetry, zero update checks; one Go binary, go-installable, and exactly one of the 25 checks may mutate your machine",
-        ],
-        techStack: ["Go", "single static binary", "WebAssembly playground", "MIT"],
-        links: [{ label: "GitHub", url: "https://github.com/vandan08/preflight" }],
-        media: {
-            clip: "preflight",
-            ratio: "1880 / 994",
-            caption: "A check against a real project, end to end, then the fix plan",
-        },
-        shots: [
-            {
-                src: "/media/preflight/landing.webp",
-                caption:
-                    "The landing page — 25 diagnoses, each with a why; one package may mutate your machine.",
-            },
-            {
-                src: "/media/preflight/run.webp",
-                caption:
-                    "A real run: console code page, long paths, and git config, each with its own why.",
-            },
-            {
-                src: "/media/preflight/finding.webp",
-                caption:
-                    "Every finding carries detected, expected, why and fix — in that order.",
-            },
-            {
-                src: "/media/preflight/fix-plan.webp",
-                caption:
-                    "The fix plan, dry run: one automatic, one needing approval, four manual.",
             },
         ],
     },
@@ -273,6 +179,149 @@ export const projects: Project[] = [
                 src: "/media/quoinly/advisor.webp",
                 caption:
                     "The AI advisor answers from your own ledger — and says on the page that it is not a licensed adviser.",
+            },
+        ],
+    },
+    {
+        slug: "chainsentry",
+        title: "ChainSentry",
+        kicker: "Supply-chain security, ranked by real exploitability",
+        description:
+            "Supply-chain security, built into your CI. Most vulnerability scans drown teams in alerts; fewer than 5% are ever exploited. ChainSentry ranks findings by real-world exploitability so the ones that matter surface first.",
+        features: [
+            "Risk ranking that blends CVSS, EPSS exploit probability, and CISA KEV membership",
+            "PR supply-chain delta — reviewers see exactly what a pull request introduces",
+            "Policy-as-code gates with time-boxed suppressions, defined in chainsentry.yml",
+            "CycloneDX SBOMs and OpenVEX output; normalizes Trivy, Semgrep, and OWASP Dependency-Check",
+        ],
+        techStack: [
+            "Java 24",
+            "Spring Boot 4.1",
+            "Virtual Threads",
+            "PostgreSQL",
+            "Redis",
+            "GitHub Actions",
+        ],
+        links: [{ label: "GitHub", url: "https://github.com/vandan08/chainsentry" }],
+        media: {
+            clip: "chainsentry",
+            ratio: "1898 / 914",
+            caption: "The same scan ranked two ways, then gated on a broken repo",
+        },
+        shots: [
+            {
+                src: "/media/chainsentry/ranking.webp",
+                caption:
+                    "Same findings, different order: severity says how bad a flaw could be, exploitability says whether anyone is using it.",
+            },
+            {
+                src: "/media/chainsentry/dashboard.webp",
+                caption:
+                    "Findings over time across four commits, with the gate's verdict on each one beside it.",
+            },
+            {
+                src: "/media/chainsentry/gate.webp",
+                caption:
+                    "The policy gate, rule by rule — nothing on the KEV list, nothing above the risk threshold, zero criticals.",
+            },
+            {
+                src: "/media/chainsentry/findings.webp",
+                caption:
+                    "Risk-ranked findings: CVSS, EPSS and KEV folded into one score, with the fix versions and the engine that found it.",
+            },
+        ],
+    },
+    {
+        slug: "talon",
+        title: "Talon",
+        kicker: "Finds client work for freelance developers",
+        description:
+            "Freelance lead generation is a volume problem pretending to be a search problem. Talon pulls opportunity signals from public sources, ranks each one against your actual profile, and drafts the opening message — then makes the send the one thing a schedule can never do on its own.",
+        features: [
+            "Five live sources on the rail — Freelancer.com, GitHub funded issues, Hacker News “Who is hiring”, Google Places and Reddit hiring posts; two more were built, measured, and thrown away for returning noise",
+            "Every lead is scored against the profile and staged in one table: surfaced → contacted → replied, with the budget, reach and source visible on the same row",
+            "Upwork and LinkedIn are deliberately absent — their licences cap stored marketplace data at 24 hours, which collides with keeping an honest history",
+            "The opener is drafted from the posting itself and your real project history, so it argues from evidence rather than adjectives",
+            "Every route in the program funnels through a single send — nothing on a timer can reach a stranger, and the opt-out is added where a prompt cannot remove it",
+        ],
+        techStack: [
+            "Python",
+            "PostgreSQL",
+            "Anthropic / OpenAI",
+            "Reddit API",
+            "Google Places",
+            "SMTP",
+            "Docker",
+        ],
+        note: "In active development",
+        media: {
+            clip: "talon",
+            ratio: "1918 / 946",
+            caption: "The full run — sources, scoring, the draft, and the send",
+        },
+        shots: [
+            {
+                src: "/media/talon/landing.webp",
+                caption:
+                    "The field above: 2,058 job postings, six companies, zero worth engineering contract work.",
+            },
+            {
+                src: "/media/talon/sources.webp",
+                caption:
+                    "Five sources on the rail. Two more were built, measured, and thrown away.",
+            },
+            {
+                src: "/media/talon/draft.webp",
+                caption:
+                    "The draft, with the lead router in full beside it — one route reaches a stranger.",
+            },
+            {
+                src: "/media/talon/pipeline.webp",
+                caption:
+                    "The pipeline: every lead scored, staged, and priced, in a single table.",
+            },
+        ],
+    },
+    {
+        slug: "preflight",
+        title: "Preflight",
+        kicker: "The error message is lying to you",
+        description:
+            "A build fails with “invalid target release: 24” and the message names the wrong thing — your JDK is fine, JAVA_HOME just points somewhere your shell does not. Preflight is a developer environment doctor that names the actual cause across toolchains, env files, services, ports and Windows, and fixes what it can do safely.",
+        features: [
+            "25 diagnoses, each carrying detected, expected, why and fix — never a bare pass/fail you then have to research",
+            "Catches the disagreements, not just the absences: a second git shadowing the intended one on PATH, a console code page that garbles non-ASCII output, long paths that fail only for files that are plainly there",
+            "Fixes are classified before anything runs — automatic, assisted, or manual — and the fix command dry-runs the whole plan first",
+            "Never writes a value into an env file: it names the missing keys and refuses to invent them, because that is your team’s secret store’s job",
+            "Zero daemons, zero telemetry, zero update checks; one Go binary, go-installable, and exactly one of the 25 checks may mutate your machine",
+        ],
+        techStack: ["Go", "single static binary", "WebAssembly playground", "MIT"],
+        links: [{ label: "GitHub", url: "https://github.com/vandan08/preflight" }],
+        media: {
+            clip: "preflight",
+            ratio: "1880 / 994",
+            caption: "A check against a real project, end to end, then the fix plan",
+        },
+        shots: [
+            {
+                src: "/media/preflight/landing.webp",
+                caption:
+                    "The landing page — 25 diagnoses, each with a why; one package may mutate your machine.",
+            },
+            {
+                src: "/media/preflight/run.webp",
+                caption:
+                    "A real run: console code page, long paths, and git config, each with its own why.",
+            },
+            {
+                src: "/media/preflight/finding.webp",
+                caption:
+                    "Every finding carries detected, expected, why and fix — in that order.",
+            },
+            {
+                src: "/media/preflight/fix-plan.webp",
+                caption:
+                    "The fix plan, dry run: one automatic, one needing approval, four manual.",
             },
         ],
     },
@@ -398,55 +447,6 @@ export const projects: Project[] = [
                 src: "/media/fraudflux/stack.webp",
                 caption:
                     "Every choice, and its reason — the page argues for Kafka, Redis and Postgres rather than listing them.",
-            },
-        ],
-    },
-    {
-        slug: "chainsentry",
-        title: "ChainSentry",
-        kicker: "Supply-chain security, ranked by real exploitability",
-        description:
-            "Supply-chain security, built into your CI. Most vulnerability scans drown teams in alerts; fewer than 5% are ever exploited. ChainSentry ranks findings by real-world exploitability so the ones that matter surface first.",
-        features: [
-            "Risk ranking that blends CVSS, EPSS exploit probability, and CISA KEV membership",
-            "PR supply-chain delta — reviewers see exactly what a pull request introduces",
-            "Policy-as-code gates with time-boxed suppressions, defined in chainsentry.yml",
-            "CycloneDX SBOMs and OpenVEX output; normalizes Trivy, Semgrep, and OWASP Dependency-Check",
-        ],
-        techStack: [
-            "Java 24",
-            "Spring Boot 4.1",
-            "Virtual Threads",
-            "PostgreSQL",
-            "Redis",
-            "GitHub Actions",
-        ],
-        links: [{ label: "GitHub", url: "https://github.com/vandan08/chainsentry" }],
-        media: {
-            clip: "chainsentry",
-            ratio: "1898 / 914",
-            caption: "The same scan ranked two ways, then gated on a broken repo",
-        },
-        shots: [
-            {
-                src: "/media/chainsentry/ranking.webp",
-                caption:
-                    "Same findings, different order: severity says how bad a flaw could be, exploitability says whether anyone is using it.",
-            },
-            {
-                src: "/media/chainsentry/dashboard.webp",
-                caption:
-                    "Findings over time across four commits, with the gate's verdict on each one beside it.",
-            },
-            {
-                src: "/media/chainsentry/gate.webp",
-                caption:
-                    "The policy gate, rule by rule — nothing on the KEV list, nothing above the risk threshold, zero criticals.",
-            },
-            {
-                src: "/media/chainsentry/findings.webp",
-                caption:
-                    "Risk-ranked findings: CVSS, EPSS and KEV folded into one score, with the fix versions and the engine that found it.",
             },
         ],
     },
