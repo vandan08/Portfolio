@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Newsreader, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import CursorMark from "@/components/CursorMark";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -64,6 +65,7 @@ export default function RootLayout({
         className={`${fraunces.variable} ${newsreader.variable} ${plexMono.variable} antialiased`}
       >
         {children}
+        <CursorMark />
       </body>
     </html>
   );

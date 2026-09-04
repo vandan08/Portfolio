@@ -7,6 +7,8 @@
    ============================================================ */
 :root {
   --paper: #f5efe3;
+  /* The same ivory in parts, for the places that need it at partial strength */
+  --paper-rgb: 245 239 227;
   --paper-raised: #fbf7ee;
   --paper-deep: #ece3d0;
   --ink: #211c14;
@@ -344,3 +346,186 @@ select.field-night option {
       transparent 1px 34px
     );
 }
+
+/* ------------------------------------------------------------
+   The cursor mark — the tools of the trade, one at a time, riding
+   with the pointer and turning over every few seconds. Each in its
+   own brand colour and nothing behind it, so the page shows through.
+
+   A logo with no plate under it has to hold its own against warm
+   paper one moment and a photograph the next, which is what the
+   drop shadow under each mark is for. It sits above the page and
+   below the fixed masthead, so it passes behind it rather than
+   over it.
+   ------------------------------------------------------------ */
+.cursor-mark {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 45;
+  width: 2.75rem;
+  pointer-events: none;
+  opacity: 0;
+  /* The lag is the easing. There is no animation loop behind this: the
+     pointer writes a destination and the transition takes its time. */
+  transition:
+    transform 380ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 420ms ease;
+  will-change: transform;
+}
+
+.cursor-mark[data-awake="1"] {
+  opacity: 1;
+}
+
+/* The well the marks are stacked in. It holds its own height so the name
+   below it never walks up and down as the marks change. */
+.cursor-mark__well {
+  position: relative;
+  height: 1.5rem;
+}
+
+.cursor-mark__glyph {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-left: -0.6875rem;
+  opacity: 0;
+  transform: scale(0.84);
+  filter: drop-shadow(0 1px 2px rgba(33, 28, 20, 0.35));
+  transition:
+    opacity 480ms ease,
+    transform 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.cursor-mark__glyph[data-on="1"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* The names are stacked the same way. The row is given a fixed height and the
+   labels are centred out of the flow, so a long name never shoves the mark
+   off its own centre line. */
+.cursor-mark__names {
+  position: relative;
+  height: 0.75rem;
+  margin-top: 0.4375rem;
+}
+
+.cursor-mark__name {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  white-space: nowrap;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.5625rem;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  /* Paper pressed in close behind the letters, so the name survives crossing
+     the hero photograph without a plate of its own. */
+  text-shadow:
+    0 0 3px rgb(var(--paper-rgb) / 0.95),
+    0 0 6px rgb(var(--paper-rgb) / 0.8);
+  opacity: 0;
+  transform: translate(-50%, 2px);
+  transition:
+    opacity 480ms ease,
+    transform 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.cursor-mark__name[data-on="1"] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ------------------------------------------------------------
+   What the page throws when you click where nothing lives: the
+   real error from whichever technology the cursor was carrying,
+   stacked under the masthead and cleared after a few seconds.
+   ------------------------------------------------------------ */
+.thrown {
+  position: fixed;
+  top: 4.75rem;
+  left: 50%;
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: min(46rem, calc(100vw - 2rem));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.thrown__line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--rule);
+  /* The only colour on the card is the rule down its edge, in the tint of
+     whatever threw it. */
+  border-left: 2px solid var(--tint);
+  border-radius: 2px;
+  background: rgb(var(--paper-rgb) / 0.96);
+  box-shadow: 0 14px 30px -18px rgba(33, 28, 20, 0.7);
+  backdrop-filter: blur(3px);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.6875rem;
+  line-height: 1.55;
+  animation: thrown-in 320ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.thrown__line[data-leaving="1"] {
+  animation: thrown-out 420ms ease forwards;
+}
+
+.thrown__mark {
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--tint);
+  transform: translateY(0.125rem);
+}
+
+.thrown__where {
+  flex: none;
+  font-size: 0.5625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.thrown__what {
+  min-width: 0;
+  color: var(--ink);
+}
+
+@keyframes thrown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes thrown-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@media print {
+  .cursor-mark,
+  .thrown {
+    display: none;
+  }
+}
+
