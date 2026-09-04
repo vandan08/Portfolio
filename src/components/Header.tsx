@@ -40,6 +40,29 @@ export default function Header() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // An open menu covers the page; letting the page scroll under it means a
+    // reader who flicks the drawer scrolls the article behind it instead.
+    useEffect(() => {
+        if (!isMenuOpen) return;
+        const previous = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = previous;
+        };
+    }, [isMenuOpen]);
+
+    // A phone turned on its side can cross into the desktop nav with the drawer
+    // still open behind it, leaving a panel nothing can close.
+    useEffect(() => {
+        const wide = window.matchMedia("(min-width: 768px)");
+        const settle = () => {
+            if (wide.matches) setIsMenuOpen(false);
+        };
+        settle();
+        wide.addEventListener("change", settle);
+        return () => wide.removeEventListener("change", settle);
+    }, []);
+
     // Chrome cancels the native fragment scroll while the menu's exit
     // animation is running, so close first and scroll once it's done.
     const handleMobileNav = (href: string) => {
@@ -59,11 +82,11 @@ export default function Header() {
                 isScrolled ? "border-b border-rule" : ""
             }`}
         >
-            <nav className="container-page flex items-center justify-between py-4">
+            <nav className="container-page flex items-center justify-between py-2 md:py-4">
                 <a
                     href="#top"
                     onClick={() => setIsMenuOpen(false)}
-                    className="font-display text-lg font-semibold tracking-tight text-ink hover:text-accent transition-colors"
+                    className="-ml-1 flex min-h-11 items-center px-1 font-display text-lg font-semibold tracking-tight text-ink transition-colors hover:text-accent"
                 >
                     Vandan Sheth
                 </a>
@@ -95,7 +118,7 @@ export default function Header() {
 
                 {/* Mobile menu button */}
                 <button
-                    className="md:hidden eyebrow text-ink py-2"
+                    className="-mr-2 flex min-h-11 items-center px-2 md:hidden eyebrow text-ink"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     aria-expanded={isMenuOpen}
                     aria-label="Toggle menu"
@@ -114,13 +137,13 @@ export default function Header() {
                         transition={{ duration: 0.25, ease: "easeOut" }}
                         className="md:hidden overflow-hidden border-b border-rule bg-paper"
                     >
-                        <div className="container-page flex flex-col gap-1 py-4">
+                        <div className="container-page flex flex-col py-2 pb-[max(1rem,env(safe-area-inset-bottom))]">
                             {navLinks.map((link) => (
                                 <a
                                     key={link.name}
                                     href={link.href}
                                     onClick={() => handleMobileNav(link.href)}
-                                    className={`eyebrow py-3 border-b border-rule last:border-b-0 transition-colors hover:text-accent ${
+                                    className={`eyebrow flex min-h-12 items-center border-b border-rule text-[0.8125rem] transition-colors last:border-b-0 hover:text-accent ${
                                         activeSection === link.href.slice(1)
                                             ? "text-accent"
                                             : ""
@@ -133,7 +156,7 @@ export default function Header() {
                                 href={RESUME_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="eyebrow py-3 text-accent"
+                                className="eyebrow flex min-h-12 items-center text-[0.8125rem] text-accent"
                             >
                                 Résumé ↗
                             </a>

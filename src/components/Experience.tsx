@@ -44,7 +44,7 @@ const experiences = [
 
 export default function Experience() {
     return (
-        <section id="experience" className="py-20 md:py-28 scroll-mt-16">
+        <section id="experience" className="py-20 md:py-28 scroll-mt-20">
             <div className="container-page">
                 <AnimatedSection>
                     <SectionHeading

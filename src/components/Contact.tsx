@@ -109,7 +109,7 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="py-20 md:py-28 bg-night text-night-ink scroll-mt-16">
+        <section id="contact" className="py-20 md:py-28 bg-night text-night-ink scroll-mt-20">
             <div className="container-page">
                 <AnimatedSection>
                     <SectionHeading
@@ -140,21 +140,21 @@ export default function Contact() {
                             <p className="eyebrow text-night-soft mb-2">Write to me</p>
                             <a
                                 href="mailto:vandanbsheth9@gmail.com"
-                                className="link-night text-xl md:text-2xl font-display"
+                                className="link-night inline-flex min-h-11 items-center font-display text-xl md:text-2xl"
                             >
                                 vandanbsheth9@gmail.com
                             </a>
 
                             <div className="border-t border-night-rule mt-10 pt-6">
                                 <p className="eyebrow text-night-soft mb-3">Elsewhere</p>
-                                <ul className="space-y-2">
+                                <ul>
                                     {socialLinks.map((link) => (
                                         <li key={link.name}>
                                             <a
                                                 href={link.href}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="link-night"
+                                                className="link-night inline-flex min-h-11 items-center"
                                             >
                                                 {link.name} ↗
                                             </a>
@@ -185,7 +185,7 @@ export default function Contact() {
                                     </p>
                                 )}
 
-                                <div className="grid sm:grid-cols-2 gap-8">
+                                <div className="grid gap-6 sm:grid-cols-2 sm:gap-8">
                                     <div>
                                         <label htmlFor="name" className="eyebrow text-night-soft block mb-1">
                                             Your name
@@ -196,6 +196,9 @@ export default function Contact() {
                                             name="name"
                                             value={formData.name}
                                             onChange={handleChange}
+                                            autoComplete="name"
+                                            autoCapitalize="words"
+                                            enterKeyHint="next"
                                             className="field-night"
                                             placeholder="Jane Doe"
                                         />
@@ -216,6 +219,12 @@ export default function Contact() {
                                             name="email"
                                             value={formData.email}
                                             onChange={handleChange}
+                                            autoComplete="email"
+                                            autoCapitalize="none"
+                                            autoCorrect="off"
+                                            spellCheck={false}
+                                            inputMode="email"
+                                            enterKeyHint="next"
                                             className="field-night"
                                             placeholder="jane@example.com"
                                         />
@@ -266,6 +275,7 @@ export default function Contact() {
                                         value={formData.message}
                                         onChange={handleChange}
                                         rows={5}
+                                        enterKeyHint="send"
                                         className="field-night resize-none"
                                         placeholder="Tell me about your project, or just say hello."
                                     />
@@ -279,7 +289,7 @@ export default function Contact() {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="btn-ink !bg-night-ink !text-night !border-night-ink hover:!bg-accent-light hover:!border-accent-light disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="btn-ink w-full sm:w-auto !bg-night-ink !text-night !border-night-ink hover:!bg-accent-light hover:!border-accent-light disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {isSubmitting ? "Sending…" : "Send the letter →"}
                                 </button>

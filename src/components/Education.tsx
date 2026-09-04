@@ -15,7 +15,7 @@ const coursework = [
 
 export default function Education() {
     return (
-        <section id="education" className="py-20 md:py-28 scroll-mt-16">
+        <section id="education" className="py-20 md:py-28 scroll-mt-20">
             <div className="container-page">
                 <AnimatedSection>
                     <SectionHeading

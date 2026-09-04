@@ -49,6 +49,9 @@ export default function ProjectReel() {
     const [held, setHeld] = useState(false);
     const [reduced, setReduced] = useState(false);
     const [offset, setOffset] = useState(0);
+    // A phone has no hover to pause the reel with, and every advance fetches a
+    // new recording — so on a touch screen the reader drives it, not a timer.
+    const [coarse, setCoarse] = useState(false);
     // The reading line matches the active row, which is taller when a title wraps.
     const [lineHeight, setLineHeight] = useState(LINE);
 
@@ -60,7 +63,17 @@ export default function ProjectReel() {
     const { ref: viewRef, inView } = useInView({ threshold: 0.3 });
 
     const project = projects[active];
-    const running = inView && !held && !reduced && openIndex === null;
+    const running =
+        inView && !held && !reduced && !coarse && openIndex === null;
+
+    /* ---- a touch screen, and a tablet that has just been given a mouse ---- */
+    useEffect(() => {
+        const mq = window.matchMedia("(hover: none)");
+        const sync = () => setCoarse(mq.matches);
+        sync();
+        mq.addEventListener("change", sync);
+        return () => mq.removeEventListener("change", sync);
+    }, []);
 
     /* ---- honour the reduced-motion preference, and keep honouring it ---- */
     useEffect(() => {
@@ -254,9 +267,30 @@ export default function ProjectReel() {
                             {String(projects.length).padStart(2, "0")}
                         </span>
                     </div>
-                    <p className="eyebrow mb-5 text-ink-faint md:hidden">
-                        Swipe the plate →
-                    </p>
+                    {/* The plate still takes a swipe, but a swipe is a gesture
+                        you have to already know about — so the narrow layout
+                        also carries the transport in plain sight. */}
+                    <div className="mb-5 flex items-stretch justify-between border-y border-rule md:hidden">
+                        <button
+                            type="button"
+                            onClick={() => go(-1)}
+                            aria-label="Previous project"
+                            className="eyebrow flex min-h-11 flex-1 items-center justify-start px-1 text-ink-soft transition-colors active:text-accent"
+                        >
+                            ← Prev
+                        </button>
+                        <span className="eyebrow flex min-h-11 items-center px-3 text-ink-faint">
+                            or swipe
+                        </span>
+                        <button
+                            type="button"
+                            onClick={() => go(1)}
+                            aria-label="Next project"
+                            className="eyebrow flex min-h-11 flex-1 items-center justify-end px-1 text-ink-soft transition-colors active:text-accent"
+                        >
+                            Next →
+                        </button>
+                    </div>
 
                     {/* Desktop: the window, with the list sliding up behind it. */}
                     <div
@@ -403,7 +437,7 @@ export default function ProjectReel() {
                         <button
                             type="button"
                             onClick={() => setOpenIndex(active)}
-                            className="eyebrow cursor-pointer text-accent transition-colors hover:text-ink"
+                            className="eyebrow flex min-h-11 cursor-pointer items-center text-accent transition-colors hover:text-ink"
                         >
                             Read the dossier →
                         </button>

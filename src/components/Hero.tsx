@@ -107,13 +107,16 @@ export default function Hero() {
                             {...rise}
                             transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
                         >
+                            {/* Still a run-in line of names, but each name is
+                                given a thumb's worth of height to land on —
+                                "X" is nine pixels of type on its own. */}
                             {socialLinks.map((link, index) => (
-                                <span key={link.name}>
+                                <span key={link.name} className="flex items-center">
                                     <a
                                         href={link.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="hover:text-accent transition-colors"
+                                        className="flex min-h-11 items-center transition-colors hover:text-accent"
                                     >
                                         {link.name}
                                     </a>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Newsreader, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import CursorMark from "@/components/CursorMark";
@@ -52,6 +52,21 @@ export const metadata: Metadata = {
       "Software Engineer at OneIT. Dependable backend and cloud systems with Java, Spring Boot, AWS and GCP.",
     type: "website",
   },
+};
+
+/**
+ * Most of the people who open this open it on a phone, so the page is set for
+ * one first: the browser chrome is tinted to the paper rather than sitting on
+ * it as a grey band, and the layout is allowed under the notch so the ivory
+ * runs edge to edge — the safe insets are put back on the page's own gutters
+ * in globals.css. Zoom is deliberately left alone; pinching a page is nobody's
+ * business but the reader's.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#f5efe3",
 };
 
 export default function RootLayout({

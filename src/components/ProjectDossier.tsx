@@ -97,11 +97,17 @@ export default function ProjectDossier({
                 if (e.target === ref.current) onClose();
             }}
             aria-labelledby="dossier-title"
-            className="m-auto w-[min(64rem,calc(100vw-2rem))] max-h-[90dvh] overflow-hidden rounded-[3px] border border-rule-strong bg-paper p-0 text-ink backdrop:bg-ink/70 backdrop:backdrop-blur-[2px]"
+            /* A phone gets the whole screen — a 343px-wide card inset inside a
+               375px screen wastes the only measure a long read has. From the
+               small breakpoint up it goes back to being a card on a backdrop. */
+            className="m-0 h-[100dvh] max-h-[100dvh] w-screen max-w-none overflow-hidden rounded-none border-0 bg-paper p-0 text-ink backdrop:bg-ink/70 backdrop:backdrop-blur-[2px] sm:m-auto sm:h-auto sm:max-h-[90dvh] sm:w-[min(64rem,calc(100vw-2rem))] sm:rounded-[3px] sm:border sm:border-rule-strong"
         >
-            <div ref={scrollerRef} className="max-h-[90dvh] overflow-y-auto">
+            <div
+                ref={scrollerRef}
+                className="h-full overflow-y-auto overscroll-contain sm:h-auto sm:max-h-[90dvh]"
+            >
                 {/* Masthead — stays put while the article scrolls under it */}
-                <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-rule bg-paper/95 px-5 py-3 backdrop-blur-sm md:px-10">
+                <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b border-rule bg-paper/95 px-4 py-1.5 backdrop-blur-sm sm:px-5 sm:py-2 md:px-10">
                     <span className="eyebrow shrink-0">
                         № {figure} — Dossier
                     </span>
@@ -111,7 +117,7 @@ export default function ProjectDossier({
                             type="button"
                             onClick={() => onStep(-1)}
                             aria-label="Previous project"
-                            className="eyebrow cursor-pointer px-1 py-1 text-ink-soft transition-colors hover:text-accent"
+                            className="eyebrow flex min-h-11 cursor-pointer items-center px-2 text-ink-soft transition-colors hover:text-accent"
                         >
                             ← <span className="hidden sm:inline">Prev</span>
                         </button>
@@ -122,7 +128,7 @@ export default function ProjectDossier({
                             type="button"
                             onClick={() => onStep(1)}
                             aria-label="Next project"
-                            className="eyebrow cursor-pointer px-1 py-1 text-ink-soft transition-colors hover:text-accent"
+                            className="eyebrow flex min-h-11 cursor-pointer items-center px-2 text-ink-soft transition-colors hover:text-accent"
                         >
                             <span className="hidden sm:inline">Next</span> →
                         </button>
@@ -131,14 +137,17 @@ export default function ProjectDossier({
                             type="button"
                             onClick={onClose}
                             aria-label="Close"
-                            className="eyebrow cursor-pointer px-1 py-1 text-ink-soft transition-colors hover:text-accent"
+                            className="eyebrow flex min-h-11 cursor-pointer items-center px-2 text-ink-soft transition-colors hover:text-accent"
                         >
                             Close ✕
                         </button>
                     </div>
                 </div>
 
-                <div key={project.slug} className="dossier-in px-5 py-8 md:px-10 md:py-12">
+                <div
+                    key={project.slug}
+                    className="dossier-in px-4 pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-8 sm:px-5 md:px-10 md:pb-12 md:pt-12"
+                >
                     <h2
                         id="dossier-title"
                         className="font-display text-4xl font-medium tracking-tight md:text-5xl"

@@ -2,8 +2,8 @@
 
 export default function Footer() {
     return (
-        <footer className="bg-night text-night-soft border-t border-night-rule py-8">
-            <div className="container-page flex flex-col sm:flex-row items-center justify-between gap-3">
+        <footer className="border-t border-night-rule bg-night pt-8 pb-[max(2rem,env(safe-area-inset-bottom))] text-night-soft">
+            <div className="container-page flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
                 <p className="eyebrow text-night-soft">
                     © {new Date().getFullYear()} Vandan Sheth
                 </p>

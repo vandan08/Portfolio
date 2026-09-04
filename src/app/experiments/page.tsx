@@ -59,11 +59,11 @@ export default function ExperimentsPage() {
                 <div className="container-page flex items-center justify-between py-4">
                     <Link
                         href="/"
-                        className="font-display text-lg font-semibold tracking-tight text-ink hover:text-accent transition-colors"
+                        className="-ml-1 flex min-h-11 items-center px-1 font-display text-lg font-semibold tracking-tight text-ink transition-colors hover:text-accent"
                     >
                         Vandan Sheth
                     </Link>
-                    <Link href="/" className="eyebrow transition-colors hover:text-accent">
+                    <Link href="/" className="eyebrow inline-flex min-h-11 items-center transition-colors hover:text-accent">
                         ← Back to portfolio
                     </Link>
                 </div>
@@ -113,7 +113,7 @@ export default function ExperimentsPage() {
                                             href={experiment.href}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="eyebrow no-underline text-accent transition-colors hover:text-ink"
+                                            className="eyebrow inline-flex min-h-11 items-center no-underline text-accent transition-colors hover:text-ink"
                                         >
                                             {experiment.domain} ↗
                                         </a>
@@ -142,10 +142,10 @@ export default function ExperimentsPage() {
                 </div>
             </main>
 
-            <footer className="border-t border-rule py-10">
-                <div className="container-page flex items-center justify-between">
+            <footer className="border-t border-rule pt-10 pb-[max(2.5rem,env(safe-area-inset-bottom))]">
+                <div className="container-page flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
                     <p className="eyebrow text-ink-faint">Experiments · Vandan Sheth</p>
-                    <Link href="/" className="eyebrow transition-colors hover:text-accent">
+                    <Link href="/" className="eyebrow inline-flex min-h-11 items-center transition-colors hover:text-accent">
                         ← Back to portfolio
                     </Link>
                 </div>

@@ -9,7 +9,7 @@ import ProjectReel from "./ProjectReel";
  */
 export default function Projects() {
     return (
-        <section id="projects" className="scroll-mt-16 bg-paper-deep py-20 md:py-28">
+        <section id="projects" className="scroll-mt-20 bg-paper-deep py-20 md:py-28">
             <div className="container-page">
                 <AnimatedSection>
                     <SectionHeading
@@ -36,7 +36,7 @@ export default function Projects() {
                             href="https://github.com/vandan08"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="link-ink text-lg italic"
+                            className="link-ink inline-flex min-h-11 items-center text-lg italic"
                         >
                             The full archive lives on GitHub &#8599;
                         </a>

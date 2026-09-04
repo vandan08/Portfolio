@@ -10,7 +10,7 @@ import { EXPERIMENTS_PATH, LAB_URL } from "@/lib/links";
  */
 export default function TheLab() {
     return (
-        <section id="lab" className="py-20 md:py-28 bg-paper-deep scroll-mt-16">
+        <section id="lab" className="py-20 md:py-28 bg-paper-deep scroll-mt-20">
             <div className="container-page">
                 <AnimatedSection>
                     <SectionHeading
@@ -83,7 +83,7 @@ export default function TheLab() {
                         One of two experiments — small, deliberately narrow, not products.{" "}
                         <Link
                             href={EXPERIMENTS_PATH}
-                            className="eyebrow text-accent transition-colors hover:text-ink"
+                            className="eyebrow inline-flex min-h-11 items-center text-accent transition-colors hover:text-ink"
                         >
                             See both →
                         </Link>

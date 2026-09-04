@@ -50,6 +50,16 @@
 
 html {
   scroll-behavior: smooth;
+  /* iOS Safari inflates type on a page it decides is too narrow; this page has
+     been set for that width on purpose, so it is asked not to. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -60,6 +70,9 @@ body {
   line-height: 1.65;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  /* A phone paints a grey box over anything tappable for a moment. Focus and
+     the pressed states below say the same thing without the flash. */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Faint paper grain over everything */
@@ -98,157 +111,182 @@ body::after {
 
 /* ------------------------------------------------------------
    Editorial primitives
+
+   Set in the components layer on purpose. Unlayered CSS beats every
+   Tailwind utility, so an .eyebrow outside a layer would quietly win
+   against the `text-accent` sitting beside it in the markup and the
+   override would do nothing. Inside the layer the utility wins, which
+   is what a class written next to it was always asking for.
    ------------------------------------------------------------ */
-/* The page measure. Fluid rather than fixed, so a 24" display gets a page in
-   the same proportion as a laptop instead of two hand-spans of empty paper —
-   capped, because a line of body text still has to be readable. */
-.container-page {
-  width: 100%;
-  max-width: clamp(1100px, 78vw, 1440px);
-  margin: 0 auto;
-  padding: 0 1.5rem;
+@layer components {
+  /* The page measure. Fluid rather than fixed, so a 24" display gets a page in
+     the same proportion as a laptop instead of two hand-spans of empty paper —
+     capped, because a line of body text still has to be readable. */
+  .container-page {
+    width: 100%;
+    max-width: clamp(1100px, 78vw, 1440px);
+    margin: 0 auto;
+    /* A phone cannot spare 24px a side, and a phone held sideways has a notch to
+       clear — so the gutter is the larger of the two. */
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+
+  @media (min-width: 640px) {
+    .container-page {
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+  }
+
+  /* Small-caps monospace label, e.g. section eyebrows and dates */
+  .eyebrow {
+    font-family: var(--font-plex-mono), monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* Double rule — the classic newspaper masthead divider */
+  .rule-double {
+    border-top: 2px solid var(--rule-strong);
+    position: relative;
+  }
+
+  .rule-double::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 0;
+    right: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  /* Understated text link with a drawn underline */
+  .link-ink {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+
+  .link-ink:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+
+  /* Same, tuned for the dark contact band */
+  .link-night {
+    color: var(--night-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--night-rule);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+
+  .link-night:hover {
+    color: var(--accent-light);
+    text-decoration-color: var(--accent-light);
+  }
+
+  /* Solid classic button */
+  .btn-ink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* A thumb needs 44px of something to land on. */
+    min-height: 2.75rem;
+    gap: 0.5rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-plex-mono), monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.75rem;
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-ink:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* A thumb needs 44px of something to land on. */
+    min-height: 2.75rem;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-plex-mono), monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.75rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  /* Classic underlined form field for the dark contact band */
+  .field-night {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--night-rule);
+    border-radius: 0;
+    padding: 0.6rem 0;
+    color: var(--night-ink);
+    font-family: var(--font-newsreader), Georgia, serif;
+    font-size: 1.0625rem;
+    transition: border-color 0.25s ease;
+  }
+
+  .field-night::placeholder {
+    color: var(--night-soft);
+    opacity: 0.7;
+  }
+
+  .field-night:focus {
+    outline: none;
+    border-bottom-color: var(--accent-light);
+  }
+
+  select.field-night {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23a89e8a' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.25rem center;
+    padding-right: 1.75rem;
+    cursor: pointer;
+  }
+
+  select.field-night option {
+    background: var(--night);
+    color: var(--night-ink);
+  }
 }
 
-/* Small-caps monospace label, e.g. section eyebrows and dates */
-.eyebrow {
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-/* Double rule — the classic newspaper masthead divider */
-.rule-double {
-  border-top: 2px solid var(--rule-strong);
-  position: relative;
-}
-
-.rule-double::after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 0;
-  right: 0;
-  border-top: 1px solid var(--rule-strong);
-}
-
-/* Understated text link with a drawn underline */
-.link-ink {
-  color: var(--ink);
-  text-decoration: underline;
-  text-decoration-color: var(--rule-strong);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
-}
-
-.link-ink:hover {
-  color: var(--accent);
-  text-decoration-color: var(--accent);
-}
-
-/* Same, tuned for the dark contact band */
-.link-night {
-  color: var(--night-ink);
-  text-decoration: underline;
-  text-decoration-color: var(--night-rule);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
-}
-
-.link-night:hover {
-  color: var(--accent-light);
-  text-decoration-color: var(--accent-light);
-}
-
-/* Solid classic button */
-.btn-ink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 0.85rem 1.75rem;
-  border: 1px solid var(--ink);
-  border-radius: 2px;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  cursor: pointer;
-}
-
-.btn-ink:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--paper);
-  transform: translateY(-1px);
-}
-
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  color: var(--ink);
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 0.85rem 1.75rem;
-  border: 1px solid var(--rule-strong);
-  border-radius: 2px;
-  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  cursor: pointer;
-}
-
-.btn-ghost:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  transform: translateY(-1px);
-}
-
-/* Classic underlined form field for the dark contact band */
-.field-night {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--night-rule);
-  border-radius: 0;
-  padding: 0.6rem 0;
-  color: var(--night-ink);
-  font-family: var(--font-newsreader), Georgia, serif;
-  font-size: 1.0625rem;
-  transition: border-color 0.25s ease;
-}
-
-.field-night::placeholder {
-  color: var(--night-soft);
-  opacity: 0.7;
-}
-
-.field-night:focus {
-  outline: none;
-  border-bottom-color: var(--accent-light);
-}
-
-select.field-night {
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23a89e8a' stroke-width='1.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.25rem center;
-  padding-right: 1.75rem;
-  cursor: pointer;
-}
-
-select.field-night option {
-  background: var(--night);
-  color: var(--night-ink);
-}
 
 /* ------------------------------------------------------------
    The project reel — a window cut into the page, with the list
