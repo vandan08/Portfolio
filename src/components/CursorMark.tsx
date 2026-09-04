@@ -54,6 +54,7 @@ export default function CursorMark() {
     const [lit, setLit] = useState(0);
     const [thrown, setThrown] = useState<Thrown[]>([]);
     const ref = useRef<HTMLDivElement>(null);
+    const nibRef = useRef<HTMLDivElement>(null);
     // The click handler needs to know which mark is showing without being torn
     // down and rebuilt every time that changes.
     const litNow = useRef(0);
@@ -137,10 +138,26 @@ export default function CursorMark() {
         const el = ref.current;
         if (!el) return;
 
+        const nib = nibRef.current;
+
         let px = 0;
         let py = 0;
         let frame = 0;
         let started = false;
+
+        /**
+         * The native arrow is only taken away once there is something on
+         * screen to replace it with. Before the first movement the pointer
+         * has no known position, so a page nobody has touched yet would
+         * otherwise have no cursor at all — and the same on the way out of
+         * the window and back.
+         */
+        const setAwake = (on: boolean) => {
+            el.dataset.awake = on ? "1" : "0";
+            if (nib) nib.dataset.awake = on ? "1" : "0";
+            if (on) document.documentElement.dataset.cursor = "mark";
+            else delete document.documentElement.dataset.cursor;
+        };
 
         const place = () => {
             const { offsetWidth: w, offsetHeight: h } = el;
@@ -155,6 +172,10 @@ export default function CursorMark() {
                     ? py - TRAIL_Y - h
                     : py + TRAIL_Y;
             el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+            // The nib does not lag and does not change sides: it is the
+            // point itself, and a point that arrives late or somewhere else
+            // is not one you can aim with.
+            if (nib) nib.style.transform = `translate3d(${px}px, ${py}px, 0)`;
         };
 
         const onMove = (e: PointerEvent) => {
@@ -169,7 +190,7 @@ export default function CursorMark() {
                 place();
                 void el.offsetWidth;
                 el.style.transition = "";
-                el.dataset.awake = "1";
+                setAwake(true);
                 return;
             }
             // Pointer events outrun paint, so the write is coalesced onto the
@@ -193,10 +214,10 @@ export default function CursorMark() {
 
         // Out of the window is out of the picture; back when you are.
         const onLeave = (e: PointerEvent) => {
-            if (!e.relatedTarget) el.dataset.awake = "0";
+            if (!e.relatedTarget) setAwake(false);
         };
         const onEnter = () => {
-            if (started) el.dataset.awake = "1";
+            if (started) setAwake(true);
         };
 
         window.addEventListener("pointermove", onMove, { passive: true });
@@ -206,6 +227,9 @@ export default function CursorMark() {
 
         return () => {
             cancelAnimationFrame(frame);
+            // Whatever happens next — a mouse unplugged, reduced motion turned
+            // on, this component going away — the page gets its arrow back.
+            delete document.documentElement.dataset.cursor;
             window.removeEventListener("pointermove", onMove);
             document.removeEventListener("click", onClick);
             document.removeEventListener("pointerout", onLeave);
@@ -217,6 +241,28 @@ export default function CursorMark() {
 
     return (
         <>
+            {/* The point itself: a printer's registration mark, drawn once in
+                paper and once in ink over it, so it holds against warm paper
+                and against the night band alike. The gap at the centre leaves
+                the exact pixel you are aiming at uncovered. */}
+            <div
+                ref={nibRef}
+                className="cursor-nib"
+                data-awake="0"
+                aria-hidden="true"
+            >
+                <svg viewBox="0 0 16 16" className="cursor-nib__cross">
+                    <path
+                        className="cursor-nib__halo"
+                        d="M8 .5v5M8 10.5v5M.5 8h5M10.5 8h5"
+                    />
+                    <path
+                        className="cursor-nib__line"
+                        d="M8 .5v5M8 10.5v5M.5 8h5M10.5 8h5"
+                    />
+                </svg>
+            </div>
+
             <div ref={ref} className="cursor-mark" data-awake="0" aria-hidden="true">
                 <div className="cursor-mark__well">
                     {TECH_MARKS.map(({ name, Icon, tint }, n) => (
