@@ -232,6 +232,47 @@ export const projects: Project[] = [
         ],
     },
     {
+        slug: "credlayer",
+        title: "CredLayer",
+        kicker: "On-chain credit for borrowers who earned it",
+        description:
+            "DeFi lending demands 150%+ collateral because it trusts no one. CredLayer introduces reputation-based credit scoring on-chain, letting proven borrowers access loans with as little as 40% collateral.",
+        features: [
+            "Off-chain risk engine feeding on-chain smart contracts, with credit bands A through D",
+            "ECDSA-signed loan approvals and DAO governance over protocol parameters",
+            "Blockchain event listener syncing loan activity to PostgreSQL, with REST APIs for loan terms",
+        ],
+        techStack: ["Solidity", "Hardhat", "Java", "Spring Boot", "Web3j", "PostgreSQL"],
+        links: [{ label: "GitHub", url: "https://github.com/vandan08/CredLayer" }],
+        media: {
+            clip: "credlayer",
+            ratio: "1912 / 870",
+            caption: "A score, a band, and a loan priced off it — end to end",
+        },
+        shots: [
+            {
+                src: "/media/credlayer/dashboard.webp",
+                caption:
+                    "850 out of 1000 puts this wallet in band A: 40% collateral, 5% APR, read live from the registry contract.",
+            },
+            {
+                src: "/media/credlayer/borrow.webp",
+                caption:
+                    "$5,000 borrowed against $2,000 of collateral — the band comparison shows what the other three would have cost.",
+            },
+            {
+                src: "/media/credlayer/score-history.webp",
+                caption:
+                    "The repayment record the score is built from, and twelve months of what it did to the number.",
+            },
+            {
+                src: "/media/credlayer/history.webp",
+                caption:
+                    "Five loans, $9,300 borrowed, zero defaults — the on-chain history a reputation has to come from.",
+            },
+        ],
+    },
+    {
         slug: "talon",
         title: "Talon",
         kicker: "Finds client work for freelance developers",
@@ -463,46 +504,5 @@ export const projects: Project[] = [
         ],
         techStack: ["Java", "Spring Boot", "OAuth2 / OIDC", "Open Policy Agent", "API Gateway"],
         links: [{ label: "GitHub", url: "https://github.com/vandan08/aegis-platform" }],
-    },
-    {
-        slug: "credlayer",
-        title: "CredLayer",
-        kicker: "On-chain credit for borrowers who earned it",
-        description:
-            "DeFi lending demands 150%+ collateral because it trusts no one. CredLayer introduces reputation-based credit scoring on-chain, letting proven borrowers access loans with as little as 40% collateral.",
-        features: [
-            "Off-chain risk engine feeding on-chain smart contracts, with credit bands A through D",
-            "ECDSA-signed loan approvals and DAO governance over protocol parameters",
-            "Blockchain event listener syncing loan activity to PostgreSQL, with REST APIs for loan terms",
-        ],
-        techStack: ["Solidity", "Hardhat", "Java", "Spring Boot", "Web3j", "PostgreSQL"],
-        links: [{ label: "GitHub", url: "https://github.com/vandan08/CredLayer" }],
-        media: {
-            clip: "credlayer",
-            ratio: "1912 / 870",
-            caption: "A score, a band, and a loan priced off it — end to end",
-        },
-        shots: [
-            {
-                src: "/media/credlayer/dashboard.webp",
-                caption:
-                    "850 out of 1000 puts this wallet in band A: 40% collateral, 5% APR, read live from the registry contract.",
-            },
-            {
-                src: "/media/credlayer/borrow.webp",
-                caption:
-                    "$5,000 borrowed against $2,000 of collateral — the band comparison shows what the other three would have cost.",
-            },
-            {
-                src: "/media/credlayer/score-history.webp",
-                caption:
-                    "The repayment record the score is built from, and twelve months of what it did to the number.",
-            },
-            {
-                src: "/media/credlayer/history.webp",
-                caption:
-                    "Five loans, $9,300 borrowed, zero defaults — the on-chain history a reputation has to come from.",
-            },
-        ],
     },
 ];
