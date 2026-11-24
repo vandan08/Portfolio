@@ -1,0 +1,189 @@
+\documentclass[10pt, letterpaper]{article}
+
+% ============================================================
+% Vandan Sheth — Résumé v2 (2026-11-06)
+% ONE page. Positioned for backend / AI-platform roles.
+% Single column, standard section names, no icons or tables in
+% the text flow, so ATS parsers can read it.
+% Compile with pdflatex (Overleaf default works).
+%
+% Lines marked TODO are for you to check or fill. They are LaTeX
+% comments and do not show in the PDF.
+% ============================================================
+
+\usepackage[
+    ignoreheadfoot,
+    top=1.4 cm,
+    bottom=1.4 cm,
+    left=1.7 cm,
+    right=1.7 cm,
+    footskip=1.0 cm,
+]{geometry}
+\usepackage{titlesec}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primaryColor}{RGB}{0, 0, 0}
+\usepackage{enumitem}
+\usepackage[
+    pdftitle={Vandan Sheth - Resume},
+    pdfauthor={Vandan Sheth},
+    pdfcreator={LaTeX},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref}
+\usepackage{bookmark}
+\usepackage{changepage}
+\usepackage{iftex}
+
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+\raggedright
+\pagestyle{empty}
+\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\topskip}{0pt}
+\pagenumbering{gobble}
+
+\titleformat{\section}{\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+\titlespacing{\section}{-1pt}{0.26 cm}{0.14 cm}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.06 cm,
+        parsep=0.04 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm
+    ]
+}{
+    \end{itemize}
+}
+
+% Role / project heading: bold left text, plain right text on the same line.
+% (\hfill in normal flow; keeps hyperref link boxes in the right place.)
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+\newcommand{\sub}[1]{{\small\textit{#1}}\par}
+
+\begin{document}
+
+    % ------------------------------------------------ HEADER
+    \begin{center}
+        {\fontsize{22 pt}{22 pt}\selectfont Vandan Sheth}
+
+        \vspace{5 pt}
+        \mbox{\href{mailto:vandanbsheth9@gmail.com}{vandanbsheth9@gmail.com}}
+        \ \textbar\ \mbox{\href{tel:+919909860240}{+91 99098 60240}}
+        \ \textbar\ \mbox{\href{https://www.vandansheth.in/}{vandansheth.in}}
+        \ \textbar\ \mbox{\href{https://www.linkedin.com/in/vandan-sheth08/}{LinkedIn}}
+        \ \textbar\ \mbox{\href{https://github.com/vandan08}{GitHub}}
+        \ \textbar\ \mbox{\href{https://leetcode.com/u/vandan08/}{LeetCode}}
+        \ \textbar\ \mbox{\href{https://x.com/vandans08}{X}}
+    \end{center}
+
+    % ------------------------------------------------ SUMMARY
+    \section{Summary}
+
+    Backend and AI engineer with 2.5+ years building Java and Spring Boot services for client products at
+    OneIT. Built the company's in-house AI coding assistant, which turns client tickets into code changes,
+    and delivered integrations end to end (CorePlan, Eway, Chargebee).
+
+    % ------------------------------------------------ EXPERIENCE
+    \section{Experience}
+
+    \entry{Software Engineer, OneIT}{Jul 2024 -- Present}
+    \sub{Remote. Java / Spring Boot services and Angular front ends for client products.}
+    % TODO: one phrase on what OneIT is (e.g. "Australian IT services firm") helps a lot.
+    \begin{highlights}
+        \item Built the backend of OneIT's \textbf{in-house AI coding assistant}. A developer tags the bot on a client
+              ticket; workers on 3 AI servers claim the job from a \textbf{distributed message queue}, clone the
+              project's repo, run a coding agent with project-specific skills, stream progress back onto the
+              ticket, and push the change.
+              % TODO: add one real number: tickets handled per week, or hours saved per ticket.
+        \item Built a \textbf{provider-agnostic LLM gateway} (OpenAI, Anthropic) behind one internal API, and
+              \textbf{MCP} integrations that give agents tool access and project context across several products.
+        \item Delivered the \textbf{CorePlan API integration solo} for a drilling contractor: scheduled batch jobs
+              ingest \textbf{$\sim$10,000 records a day} through a \textbf{multithreaded worker pool}, reported in
+              8 Angular dashboards.
+        \item Built an \textbf{offline-first Angular PWA} for field crews: IndexedDB storage and a custom sync
+              engine (retries, error handling, logging) against a Spring Boot backend, so data capture works
+              without signal.
+        \item For an LMS client, wrote Java modules for booking, invoicing and configuration, 20+ reusable Angular
+              components across 3 portals, and \textbf{Eway} payments plus \textbf{Chargebee} billing.
+        \item Built \textbf{AI-enabled Ruby code generation} that turns dynamic client prototype changes into
+              hand-over-ready code.
+    \end{highlights}
+
+    % ------------------------------------------------ PROJECTS
+    \section{Projects}
+
+    \entry{Quoinly: AI-powered personal wealth management}{\small\href{https://quoinly.net}{quoinly.net}}
+    \sub{React, TypeScript, Supabase (Postgres, Auth, Edge Functions), Deno, Stripe, Capacitor}
+    % TODO: check the bullets describe your own part fairly (what you built vs. the wider team).
+    \begin{highlights}
+        \item Connects real bank accounts via \textbf{Stripe Financial Connections} (Plaid, Teller adapters) and
+              categorises spending with AI.
+        \item \textbf{20+ serverless edge functions} on Deno for transaction sync, AI categorisation, receipt
+              scanning and scheduled report emails; row-level-secured Postgres with realtime updates to the UI.
+        \item Shipped joint accounts, an in-app bug-report widget that files Jira issues, and alerts when a linked
+              bank account stops syncing.
+    \end{highlights}
+
+    \vspace{0.12 cm}
+    \entry{ChainSentry: supply-chain security for CI, with an AI triage agent}{\small\href{https://github.com/vandan08/chainsentry}{GitHub}}
+    \sub{Java 24, Spring Boot, PostgreSQL, Redis, Docker, GitHub Actions, Claude and Gemini tool use}
+    \begin{highlights}
+        \item Scans code, dependencies and containers on every pull request and ranks findings by
+              \textbf{exploitability} (CVSS + EPSS + CISA KEV); policy-as-code merge gates, CycloneDX SBOMs, OpenVEX.
+        \item \textbf{LLM triage agent} reads the code behind each SAST finding (read-only tools) and judges if it is
+              exploitable. \textbf{Eval} on the OWASP Benchmark: precision \textbf{73\% $\rightarrow$ 94\%}, 5 of 56 real
+              issues lost.
+              % Source: chainsentry/eval/owasp/README.md (77 Semgrep findings, Gemini 3.5 Flash-Lite, 2026-11-22).
+              % In an interview, say the sample size and that the 5 lost real issues are the number to watch.
+    \end{highlights}
+
+    \vspace{0.12 cm}
+    \entry{Vigil: self-hosted incident response}{\small\href{https://github.com/vandan08/Vigil-}{GitHub}}
+    % TODO: rename the repo to "vigil" (no trailing dash) before sending this out.
+    \sub{Go (standard library), Server-Sent Events, Prometheus, Alertmanager, Docker}
+    \begin{highlights}
+        \item Ingests Alertmanager webhooks, fingerprints label sets and deduplicates over a sliding window, so an
+              alert storm becomes one incident with a validated lifecycle and an append-only timeline.
+        \item Ships as one binary with an embedded live console, non-blocking Slack notifications, and its own
+              Prometheus metrics (webhook p99 latency).
+    \end{highlights}
+
+    \vspace{0.12 cm}
+    \textbf{Sightline: AI-assisted driver-fitness screening prototype}\par
+    \sub{React, TypeScript, Capacitor, MediaPipe, OpenAI Vision, ARCore; planned backend: Python / FastAPI / PostgreSQL}
+    \begin{highlights}
+        \item Built a \textbf{5-test screening flow} using on-device face, hand and pose tracking, calibrated vision-test
+              symbols, and English/Arabic speech recognition and text-to-speech.
+        \item Combined \textbf{multimodal AI room checks}, 360-degree room scans and \textbf{ARCore depth estimation}
+              for door checks, alongside face-presence and second-person monitoring.
+    \end{highlights}
+
+    % ------------------------------------------------ SKILLS
+    % Only list what you'd be happy to be grilled on in an interview.
+    \section{Skills}
+
+    \textbf{Backend:} Java, Spring Boot, Hibernate/JPA, REST APIs, multithreading, Go \\
+    \textbf{AI integration:} Anthropic, OpenAI and Gemini APIs, tool-using agents, evals, MCP, RAG, Spring AI, LangChain4j \\
+    \textbf{Data:} PostgreSQL, MySQL, Redis, MongoDB \ \textbar\ \textbf{Front end:} Angular, React, TypeScript \\
+    \textbf{Infrastructure:} Docker, GitHub Actions, Jenkins, AWS (EC2, S3, SQS, SNS), Git, Maven
+    % Removed on purpose: Kafka, Kubernetes, Solidity, Ruby, NLP, Computer Vision, Neural Networks,
+    % Deep Learning, CAG. Add one back only if you've used it in real work you can talk through.
+
+    % ------------------------------------------------ EDUCATION
+    \section{Education}
+
+    \textbf{Bachelor of Computer Applications, Indus University}, First Class with Distinction, CGPA 8.16\hfill Aug 2021 -- Jun 2024
+
+\end{document}

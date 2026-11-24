@@ -1,0 +1,124 @@
+<!doctype html>
+<!--
+  HTML twin of resume-v2.tex, used to build resume-v2.pdf without LaTeX.
+  Build: chrome --headless --no-pdf-header-footer --print-to-pdf=resume-v2.pdf resume-v2.html
+  Keep the wording in step with resume-v2.tex.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vandan Sheth - Resume</title>
+<style>
+  @page { size: Letter; margin: 0.4in 0.6in; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fff; color: #000; }
+  body {
+    font-family: "Charter", "Bitstream Charter", Cambria, Georgia, serif;
+    font-size: 9.6pt; line-height: 1.16;
+  }
+  a { color: inherit; text-decoration: none; }
+  header { text-align: center; margin-bottom: 4pt; }
+  header h1 { font-size: 22pt; font-weight: normal; margin: 0 0 4pt; letter-spacing: 0.2pt; }
+  header p { margin: 1.5pt 0; }
+  h2 {
+    font-size: 11.5pt; font-weight: bold; margin: 6pt 0 2.5pt;
+    padding-bottom: 1.5pt; border-bottom: 0.6pt solid #000;
+  }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; }
+  .row b { font-weight: bold; }
+  .row span { white-space: nowrap; }
+  .sub { font-style: italic; font-size: 9.3pt; margin: 0.5pt 0 0; }
+  ul { margin: 2pt 0 0; padding-left: 13pt; }
+  li { margin: 0 0 1pt; }
+  .gap { height: 3pt; }
+  p { margin: 0; }
+  .skills p { margin: 0 0 1pt; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Vandan Sheth</h1>
+  <p><a href="mailto:vandanbsheth9@gmail.com">vandanbsheth9@gmail.com</a> | <a href="tel:+919909860240">+91 99098 60240</a> | <a href="https://www.vandansheth.in/">vandansheth.in</a> | <a href="https://www.linkedin.com/in/vandan-sheth08/">LinkedIn</a> | <a href="https://github.com/vandan08">GitHub</a> | <a href="https://leetcode.com/u/vandan08/">LeetCode</a> | <a href="https://x.com/vandans08">X</a></p>
+</header>
+
+<h2>Summary</h2>
+<p>Backend and AI engineer with 2.5+ years building Java and Spring Boot services for client products at
+OneIT. Built the company's in-house AI coding assistant, which turns client tickets into code changes, and
+delivered integrations end to end (CorePlan, Eway, Chargebee).</p>
+
+<h2>Experience</h2>
+<div class="row"><b>Software Engineer, OneIT</b><span>Jul 2024 – Present</span></div>
+<p class="sub">Remote. Java / Spring Boot services and Angular front ends for client products.</p>
+<ul>
+  <li>Built the backend of OneIT's <b>in-house AI coding assistant</b>. A developer tags the bot on a client
+      ticket; workers on 3 AI servers claim the job from a <b>distributed message queue</b>, clone the
+      project's repo, run a coding agent with project-specific skills, stream progress back onto the
+      ticket, and push the change.</li>
+  <li>Built a <b>provider-agnostic LLM gateway</b> (OpenAI, Anthropic) behind one internal API, and
+      <b>MCP</b> integrations that give agents tool access and project context across several products.</li>
+  <li>Delivered the <b>CorePlan API integration solo</b> for a drilling contractor: scheduled batch jobs
+      ingest <b>~10,000 records a day</b> through a <b>multithreaded worker pool</b>, reported in
+      8 Angular dashboards.</li>
+  <li>Built an <b>offline-first Angular PWA</b> for field crews: IndexedDB storage and a custom sync
+      engine (retries, error handling, logging) against a Spring Boot backend, so data capture works
+      without signal.</li>
+  <li>For an LMS client, wrote Java modules for booking, invoicing and configuration, 20+ reusable Angular
+      components across 3 portals, and <b>Eway</b> payments plus <b>Chargebee</b> billing.</li>
+  <li>Built <b>AI-enabled Ruby code generation</b> that turns dynamic client prototype changes into hand-over-ready code.</li>
+</ul>
+
+<h2>Projects</h2>
+<div class="row"><b>Quoinly: AI-powered personal wealth management</b><span><a href="https://quoinly.net">quoinly.net</a></span></div>
+<p class="sub">React, TypeScript, Supabase (Postgres, Auth, Edge Functions), Deno, Stripe, Capacitor</p>
+<ul>
+  <li>Connects real bank accounts via <b>Stripe Financial Connections</b> (Plaid, Teller adapters) and categorises spending with AI.</li>
+  <li><b>20+ serverless edge functions</b> on Deno for transaction sync, AI categorisation, receipt
+      scanning and scheduled report emails; row-level-secured Postgres with realtime updates to the UI.</li>
+  <li>Shipped joint accounts, an in-app bug-report widget that files Jira issues, and alerts when a linked
+      bank account stops syncing.</li>
+</ul>
+
+<div class="gap"></div>
+<div class="row"><b>ChainSentry: supply-chain security for CI, with an AI triage agent</b><span><a href="https://github.com/vandan08/chainsentry">GitHub</a></span></div>
+<p class="sub">Java 24, Spring Boot, PostgreSQL, Redis, Docker, GitHub Actions, Claude and Gemini tool use</p>
+<ul>
+  <li>Scans code, dependencies and containers on every pull request and ranks findings by
+      <b>exploitability</b> (CVSS + EPSS + CISA KEV); policy-as-code merge gates, CycloneDX SBOMs, OpenVEX.</li>
+  <li><b>LLM triage agent</b> reads the code behind each SAST finding (read-only tools) and judges if it is
+      exploitable. <b>Eval</b> on the OWASP Benchmark: precision <b>73% → 94%</b>, 5 of 56 real issues lost.</li>
+</ul>
+
+<div class="gap"></div>
+<div class="row"><b>Vigil: self-hosted incident response</b><span><a href="https://github.com/vandan08/Vigil-">GitHub</a></span></div>
+<p class="sub">Go (standard library), Server-Sent Events, Prometheus, Alertmanager, Docker</p>
+<ul>
+  <li>Ingests Alertmanager webhooks, fingerprints label sets and deduplicates over a sliding window, so an
+      alert storm becomes one incident with a validated lifecycle and an append-only timeline.</li>
+  <li>Ships as one binary with an embedded live console, non-blocking Slack notifications, and its own
+      Prometheus metrics (webhook p99 latency).</li>
+</ul>
+
+<div class="gap"></div>
+<div class="row"><b>Sightline: AI-assisted driver-fitness screening prototype</b></div>
+<p class="sub">React, TypeScript, Capacitor, MediaPipe, OpenAI Vision, ARCore; planned backend: Python / FastAPI / PostgreSQL</p>
+<ul>
+  <li>Built a <b>5-test screening flow</b> using on-device face, hand and pose tracking, calibrated vision-test
+      symbols, and English/Arabic speech recognition and text-to-speech.</li>
+  <li>Combined <b>multimodal AI room checks</b>, 360-degree room scans and <b>ARCore depth estimation</b>
+      for door checks, alongside face-presence and second-person monitoring.</li>
+</ul>
+
+<h2>Skills</h2>
+<div class="skills">
+  <p><b>Backend:</b> Java, Spring Boot, Hibernate/JPA, REST APIs, multithreading, Go</p>
+  <p><b>AI integration:</b> Anthropic, OpenAI and Gemini APIs, tool-using agents, evals, MCP, RAG, Spring AI, LangChain4j</p>
+  <p><b>Data:</b> PostgreSQL, MySQL, Redis, MongoDB | <b>Front end:</b> Angular, React, TypeScript</p>
+  <p><b>Infrastructure:</b> Docker, GitHub Actions, Jenkins, AWS (EC2, S3, SQS, SNS), Git, Maven</p>
+</div>
+
+<h2>Education</h2>
+<div class="row"><p><b>Bachelor of Computer Applications, Indus University</b>, First Class with Distinction, CGPA 8.16</p><span>Aug 2021 – Jun 2024</span></div>
+
+</body>
+</html>
